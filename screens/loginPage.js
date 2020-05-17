@@ -1,8 +1,11 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
 import ButtonLGSN from '../buttonLGSN/buttonLGSN';
-const HeroPage = (props) => {
+import InputField from '../inputField/inputField';
+
+const LoginPage = (props) => {
 	return (
 		<ImageBackground
 			source={require('../assets/images/image-background2.jpg')
@@ -20,15 +23,17 @@ const HeroPage = (props) => {
 						flex: 1,
 						backgroundColor: 'rgba(0,0,0,0.3)',
 						justifyContent: 'center',
+						alignItems: 'center',
 						position: 'relative'
 					}}
 				>
-					<Text style={styles.textHeader}>Anonymous App Mobile</Text>
-					<Text style={styles.textContent}>Let's do what you want to do!</Text>
-					<View style={styles.buttonContainer}>
-						<ButtonLGSN btnName="LOG IN" colorHex="white" style={{ marginRight: 20 }} />
-						<ButtonLGSN btnName="SIGN UP" colorHex="#b22a52" textColor="white" />
+					<Text style={styles.textLabel}>Login</Text>
+					<View style={styles.inputArea}>
+						<InputField label="Email:" placeholder="Type your email" />
+						<InputField label="Password:" placeholder="Type your password " />
+						{/* <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} /> */}
 					</View>
+					<ButtonLGSN btnName="LOG IN" colorHex="#b22a52" style={{ marginTop: 10 }} textColor="white" />
 				</View>
 			</LinearGradient>
 		</ImageBackground>
@@ -44,27 +49,21 @@ const styles = StyleSheet.create({
 	background: {
 		flex: 1
 	},
-	textHeader: {
-		color: 'white',
-		textAlign: 'left',
-		paddingLeft: 20,
-		fontSize: 50,
-		fontFamily: 'dancing-script-bold'
+	inputArea: {
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		width: 300,
+		backgroundColor: 'white',
+		borderRadius: 5
 	},
-	textContent: {
-		color: 'white',
-
-		paddingLeft: 70,
-		fontSize: 25,
-		fontFamily: 'dancing-script'
-	},
-	buttonContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
+	textLabel: {
 		position: 'absolute',
-		bottom: 30,
-		width: '100%'
+		left: 15,
+		top: 20,
+		color: 'white',
+		fontFamily: 'dancing-script',
+		fontSize: 40
 	}
 });
 
-export default HeroPage;
+export default LoginPage;

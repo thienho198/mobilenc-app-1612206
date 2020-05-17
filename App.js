@@ -3,11 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import HeroPage from './screens/heroPage';
+import LoginPage from './screens/loginPage';
 
 const fetchFonts = () => {
 	return Font.loadAsync({
 		'dancing-script': require('./assets/fonts/DancingScript-Regular.ttf'),
-		'dancing-script-bold': require('./assets/fonts/DancingScript-Bold.ttf')
+		'dancing-script-bold': require('./assets/fonts/DancingScript-Bold.ttf'),
+		'work-sans': require('./assets/fonts/WorkSans-Regular.ttf')
 	});
 };
 export default function App() {
@@ -22,7 +24,7 @@ export default function App() {
 		/>
 	) : (
 		<View style={styles.container}>
-			<HeroPage />
+			<LoginPage />
 		</View>
 	);
 }
@@ -35,3 +37,5 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	}
 });
+
+//https://www.pinterest.com/pin/764767580460101452/
