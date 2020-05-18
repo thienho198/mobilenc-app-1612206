@@ -7,36 +7,33 @@ import InputField from '../inputField/inputField';
 
 const LoginPage = (props) => {
 	return (
-		<ImageBackground
-			source={require('../assets/images/image-background2.jpg')
-			// uri:
-			//   "https://images.unsplash.com/photo-1589201968286-dfb786c4f846?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1876&q=80",
-			}
-			style={styles.image}
-		>
-			<LinearGradient
-				colors={[ 'rgba(148, 187, 233, 0.7)', 'rgba(242, 101, 155, 0.9)' ]}
-				style={styles.background}
+		// <ImageBackground
+		// 	source={require('../assets/images/image-background2.jpg')
+		// 	// uri:
+		// 	//   "https://images.unsplash.com/photo-1589201968286-dfb786c4f846?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1876&q=80",
+		// 	}
+		// 	style={styles.image}
+		// >
+		<LinearGradient colors={[ 'rgba(148, 187, 233, 0.7)', 'rgba(242, 101, 155, 0.9)' ]} style={styles.background}>
+			<View
+				style={{
+					flex: 1,
+					backgroundColor: 'rgba(0,0,0,0.3)',
+					justifyContent: 'center',
+					alignItems: 'center',
+					position: 'relative'
+				}}
 			>
-				<View
-					style={{
-						flex: 1,
-						backgroundColor: 'rgba(0,0,0,0.3)',
-						justifyContent: 'center',
-						alignItems: 'center',
-						position: 'relative'
-					}}
-				>
-					<Text style={styles.textLabel}>Login</Text>
-					<View style={styles.inputArea}>
-						<InputField label="Email:" placeholder="Type your email" />
-						<InputField label="Password:" placeholder="Type your password " />
-						{/* <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} /> */}
-					</View>
-					<ButtonLGSN btnName="LOG IN" colorHex="#b22a52" style={{ marginTop: 10 }} textColor="white" />
+				<Text style={styles.textLabel}>Login</Text>
+				<View style={styles.inputArea}>
+					<InputField label="Email:" placeholder="Type your email" />
+					<InputField label="Password:" placeholder="Type your password " />
+					{/* <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} /> */}
 				</View>
-			</LinearGradient>
-		</ImageBackground>
+				<ButtonLGSN btnName="LOG IN" colorHex="#b22a52" style={{ marginTop: 10 }} textColor="white" />
+			</View>
+		</LinearGradient>
+		// </ImageBackground>
 	);
 };
 

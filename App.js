@@ -4,6 +4,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import HeroPage from './screens/heroPage';
 import LoginPage from './screens/loginPage';
+import LoginPageNew from './screens/loginPageNew';
 
 const fetchFonts = () => {
 	return Font.loadAsync({
@@ -24,7 +25,7 @@ export default function App() {
 		/>
 	) : (
 		<View style={styles.container}>
-			<LoginPage />
+			<LoginPageNew />
 		</View>
 	);
 }
@@ -32,7 +33,7 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: 'blue',
 		alignItems: 'center',
 		justifyContent: 'center'
 	}

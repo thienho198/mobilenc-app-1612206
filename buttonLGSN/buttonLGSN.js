@@ -11,14 +11,13 @@ const ButtonLGSN = (props) => {
 const styles = StyleSheet.create({
 	btn: {
 		height: 40,
-		width: 140,
-		borderRadius: 10,
+		width: 160,
+		borderRadius: 15,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	text: {
-		fontSize: 20,
-		fontFamily: 'dancing-script'
+		fontSize: 17
 	}
 });
 
