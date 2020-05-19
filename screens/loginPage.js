@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import ButtonLGSN from '../buttonLGSN/buttonLGSN';
-import InputField from '../inputField/inputField';
+import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
+import InputField from '../components/inputField/inputField';
 
 const LoginPage = (props) => {
 	return (

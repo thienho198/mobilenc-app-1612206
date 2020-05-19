@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import ButtonLGSN from '../buttonLGSN/buttonLGSN';
+import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 const HeroPage = (props) => {
 	return (
 		<ImageBackground

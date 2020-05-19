@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, TextInput, TextFieldImage, Image } from 'react-native';
 
-import ButtonLGSN from '../buttonLGSN/buttonLGSN';
-import InputField from '../inputField/inputField';
+import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
+import InputField from '../components/inputField/inputField';
+import ButtonFBGG from '../components/buttonFBGG/buttonFBGG';
 
 const LoginPageNew = (props) => {
 	return (
@@ -14,6 +15,11 @@ const LoginPageNew = (props) => {
 			<Text style={styles.forgotPstext}>Forgot password?</Text>
 			<ButtonLGSN btnName="LOGIN" colorHex="#2590e9" textColor="white" style={{ marginTop: 20 }} />
 			<Text style={{ marginTop: 30 }}>Or connect using</Text>
+			<View style={styles.butonFBGGcontainer}>
+			<ButtonFBGG type='ionicon' name='logo-facebook' color='white' btnName='Facebook' style={{marginRight: 20, backgroundColor: '#517fa4'}}/>
+			<ButtonFBGG type='ionicon' name='logo-google' btnName='Google' color='white'style={{ backgroundColor:'#f33'}}/>
+			</View>
+			<Text style={{marginTop: 50, position: 'relative' , top: 50}}> Don't have an account? <Text style={{color:'#2590e9', fontWeight: 'bold'}}>Sign Up</Text></Text>
 		</View>
 	);
 };
@@ -43,9 +49,14 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 15,
 		top: 30,
-		color: 'black',
+		color: '#2590e9',
 		// /fontFamily: 'work-sans',
 		fontSize: 30
+	},
+	butonFBGGcontainer:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginTop: 10
 	}
 });
 
