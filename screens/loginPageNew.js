@@ -1,11 +1,16 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TextFieldImage, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TextInput, TextFieldImage, Image, TouchableOpacity } from 'react-native';
 
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import InputField from '../components/inputField/inputField';
 import ButtonFBGG from '../components/buttonFBGG/buttonFBGG';
 
 const LoginPageNew = (props) => {
+
+	//#region event
+	const onHandleSignUpPress = ()=>{
+		props.navigation.navigate('SignUp')
+	}
 	return (
 		<View style={styles.container}>
 			<Text style={styles.mainLabel}>Login</Text>
@@ -19,7 +24,8 @@ const LoginPageNew = (props) => {
 			<ButtonFBGG type='ionicon' name='logo-facebook' color='white' btnName='Facebook' style={{marginRight: 20, backgroundColor: '#517fa4'}}/>
 			<ButtonFBGG type='ionicon' name='logo-google' btnName='Google' color='white'style={{ backgroundColor:'#f33'}}/>
 			</View>
-			<Text style={{marginTop: 50, position: 'relative' , top: 50}}> Don't have an account? <Text style={{color:'#2590e9', fontWeight: 'bold'}}>Sign Up</Text></Text>
+			<Text style={{marginTop: 50, position: 'relative' , top: 50}}> Don't have an account?</Text> 
+			<TouchableOpacity onPress={onHandleSignUpPress} style={{ position: 'relative' , top: 54}}><Text style={{color:'#2590e9', fontWeight: 'bold'}}>Sign Up</Text></TouchableOpacity>
 		</View>
 	);
 };
@@ -59,5 +65,10 @@ const styles = StyleSheet.create({
 		marginTop: 10
 	}
 });
+
+
+	
+
+
 
 export default LoginPageNew;

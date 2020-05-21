@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import HeroPage from './screens/heroPage';
-import LoginPage from './screens/loginPage';
+
+import SignupPage from './screens/signupPage';
 import LoginPageNew from './screens/loginPageNew';
 
+import { NavigationContainer } from '@react-navigation/native';
+import MyStack from './navigatonStack/myNavigation';
 const fetchFonts = () => {
 	return Font.loadAsync({
 		'dancing-script': require('./assets/fonts/DancingScript-Regular.ttf'),
@@ -24,9 +26,13 @@ export default function App() {
 			}}
 		/>
 	) : (
-		<View style={styles.container}>
-			<LoginPageNew />
-		</View>
+		<NavigationContainer>
+			<MyStack/>
+		</NavigationContainer>
+		
+		// <View style={styles.container}>
+		// 	<SignupPage />
+		// </View>
 	);
 }
 

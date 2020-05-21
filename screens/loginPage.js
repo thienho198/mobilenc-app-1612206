@@ -37,6 +37,10 @@ const LoginPage = (props) => {
 	);
 };
 
+LoginPage.navigationOptions = {
+	headerTitle: 'Haha'
+}
+
 const styles = StyleSheet.create({
 	image: {
 		flex: 1,
