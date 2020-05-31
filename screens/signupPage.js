@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TextFieldImage, Image, TouchableOpacity} from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	ImageBackground,
+	TextInput,
+	TextFieldImage,
+	Image,
+	TouchableOpacity
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment'
+import moment from 'moment';
 
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import InputField from '../components/inputField/inputField';
@@ -14,21 +23,27 @@ const SignupPage = (props) => {
 	};
 	const onDtpickerChange = (event, selectedDate) => {
 		setShow(false);
-		setDate(moment(selectedDate).format("MMM Do YY"));
+		setDate(moment(selectedDate).format('MMM Do YY'));
 		//console.log(selectedDate);
 	};
-	const onHandleLoginPress = ()=>{
+	const onHandleLoginPress = () => {
 		props.navigation.goBack();
-	}
+	};
 	return (
 		<View style={styles.container}>
-			<Text style={styles.mainLabel}>SIGN UP</Text>
+			{/* <Text style={styles.mainLabel}>SIGN UP</Text> */}
 
 			<InputField label="Email:" placeholder="Enter email" isFocus={true} />
 			<InputField label="Password:" placeholder="Enter password" />
 			<InputField label="Cofirm password:" placeholder="" />
 			<InputField label="Name:" placeholder="Enter your name" />
-			<InputField label="Birth day:" placeholder="Enter your name" onHandleShowDTPicker={toggleDateTimePicker} isDatePicker date={date} />
+			<InputField
+				label="Birth day:"
+				placeholder="Enter your name"
+				onHandleShowDTPicker={toggleDateTimePicker}
+				isDatePicker
+				date={date}
+			/>
 			{show ? (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -43,10 +58,10 @@ const SignupPage = (props) => {
 
 			<ButtonLGSN btnName="SIGN UP" colorHex="#2590e9" textColor="white" style={{ marginTop: 20 }} />
 
-			<Text style={{ marginTop: 50, position: 'relative', top: 86 }}>
-				Already have an account? 
-			</Text>
-			<TouchableOpacity onPress={onHandleLoginPress} style={{position: 'relative', top: 90 }}><Text style={{ color: '#2590e9', fontWeight: 'bold' }}>Login here</Text></TouchableOpacity>
+			<Text style={{ marginTop: 50, position: 'relative', top: 71 }}>Already have an account?</Text>
+			<TouchableOpacity onPress={onHandleLoginPress} style={{ position: 'relative', top: 75 }}>
+				<Text style={{ color: '#2590e9', fontWeight: 'bold' }}>Login here</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };

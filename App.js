@@ -8,6 +8,8 @@ import LoginPageNew from './screens/loginPageNew';
 
 import { NavigationContainer } from '@react-navigation/native';
 import MyStack from './navigatonStack/myNavigation';
+import MainTabNavigator from './bottomTabNavigation/mainTabNavigator';
+
 const fetchFonts = () => {
 	return Font.loadAsync({
 		'dancing-script': require('./assets/fonts/DancingScript-Regular.ttf'),
@@ -27,9 +29,9 @@ export default function App() {
 		/>
 	) : (
 		<NavigationContainer>
-			<MyStack/>
+			<MyStack />
 		</NavigationContainer>
-		
+
 		// <View style={styles.container}>
 		// 	<SignupPage />
 		// </View>

@@ -2,7 +2,10 @@ import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 const ButtonLGSN = (props) => {
 	return (
-		<TouchableOpacity style={{ ...styles.btn, backgroundColor: props.colorHex, ...props.style }}>
+		<TouchableOpacity
+			onPress={props.onPress}
+			style={{ ...styles.btn, backgroundColor: props.colorHex, ...props.style }}
+		>
 			<Text style={{ ...styles.text, color: props.textColor }}>{props.btnName}</Text>
 		</TouchableOpacity>
 	);
