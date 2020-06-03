@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import CategoryDisplay from '../components/categoryDisplay/CategoryDisplay';
 import Tag from '../components/tag/Tag';
+import AuthorCircle from '../components/authorCircle/AuthorCircle';
 
 const Browse = (props) => {
 	const dataCategoryDiplay = [
@@ -95,6 +96,36 @@ const Browse = (props) => {
 		'TypeScript',
 		'AI',
 		'IOS'
+	];
+	const dataTopAuthors = [
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20151024386876251.jpg',
+			authorName: 'Felica G Frank'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male1085779685638.jpg',
+			authorName: 'Kenneth T Sutton'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20161025087137757.jpg',
+			authorName: 'Anna C Anaya'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20151024249172608.jpg',
+			authorName: 'Brenda M Wynne'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male20171085984168854.jpg',
+			authorName: 'Michael C Williams'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male20171084062504120.jpg',
+			authorName: 'Chad E Cote'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female1022402225678.jpg',
+			authorName: 'Jennifer T Jones'
+		}
 	];
 	//#region render
 
@@ -189,13 +220,26 @@ const Browse = (props) => {
 	};
 	const popularSkillArea = () => {
 		return (
-			<View style={{ width: '100%', height: 65, marginTop: 20 }}>
+			<View style={{ height: 65, marginTop: 20 }}>
 				<Text style={{ marginLeft: 10, marginBottom: 10 }}>Popular Skills</Text>
 				<FlatList
 					horizontal={true}
 					data={dataTagPopularSkills}
 					keyExtractor={(item, index) => index}
 					renderItem={({ item }) => <Tag content={item} style={{ marginRight: 5 }} />}
+				/>
+			</View>
+		);
+	};
+	const topAuthor = () => {
+		return (
+			<View style={{ height: 140, marginTop: 20 }}>
+				<Text style={{ marginLeft: 10, marginBottom: 10 }}>Top Authors</Text>
+				<FlatList
+					data={dataTopAuthors}
+					horizontal={true}
+					renderItem={({ item }) => <AuthorCircle {...item} style={{ marginRight: 10 }} />}
+					keyExtractor={(item, index) => index}
 				/>
 			</View>
 		);
@@ -207,9 +251,7 @@ const Browse = (props) => {
 				{bigCategoryDisplayArea()}
 				{smallCategoryDisplayArea()}
 				{popularSkillArea()}
-				<Text>Test scroll</Text>
-				<Text>Test scroll</Text>
-				<Text>Test scroll</Text>
+				{topAuthor()}
 			</ScrollView>
 		</View>
 	);
