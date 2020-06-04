@@ -154,6 +154,7 @@ const Browse = (props) => {
 					width="100%"
 					height={86}
 					uri="https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+					onPress={() => props.navigation.navigate('CategoryCourses')}
 				>
 					<Text
 						style={{
@@ -214,6 +215,7 @@ const Browse = (props) => {
 						</View>
 					)}
 					keyExtractor={(item, index) => index}
+					showsHorizontalScrollIndicator={false}
 				/>
 			</View>
 		);
@@ -227,6 +229,7 @@ const Browse = (props) => {
 					data={dataTagPopularSkills}
 					keyExtractor={(item, index) => index}
 					renderItem={({ item }) => <Tag content={item} style={{ marginRight: 5 }} />}
+					showsHorizontalScrollIndicator={false}
 				/>
 			</View>
 		);
@@ -240,6 +243,7 @@ const Browse = (props) => {
 					horizontal={true}
 					renderItem={({ item }) => <AuthorCircle {...item} style={{ marginRight: 10 }} />}
 					keyExtractor={(item, index) => index}
+					showsHorizontalScrollIndicator={false}
 				/>
 			</View>
 		);

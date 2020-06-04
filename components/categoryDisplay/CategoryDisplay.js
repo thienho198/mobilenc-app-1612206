@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ImageBackground, Text, StyleSheet } from 'react-native';
+import { View, ImageBackground, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const categoryDisplay = (props) => {
 	const { uri, localPath, children, width, height, style } = props; //all required uri || localPath
@@ -7,9 +7,11 @@ const categoryDisplay = (props) => {
 	//#region render
 	const propsImageBackground = uri ? { uri: uri } : null;
 	return (
-		<ImageBackground source={propsImageBackground} style={{ width: width, height: height, ...style }}>
-			<View style={styles.backgroundView}>{children}</View>
-		</ImageBackground>
+		<TouchableOpacity onPress={props.onPress}>
+			<ImageBackground source={propsImageBackground} style={{ width: width, height: height, ...style }}>
+				<View style={styles.backgroundView}>{children}</View>
+			</ImageBackground>
+		</TouchableOpacity>
 	);
 };
 

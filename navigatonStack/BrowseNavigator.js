@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { View } from 'react-native';
 import Browse from '../screens/Browse';
 import Profile from '../screens/Profile';
+import CategoryCourses from '../screens/CategoryCourses';
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
@@ -22,6 +23,7 @@ const HomeNavigator = () => {
 		>
 			<Stack.Screen name="Browse" component={Browse} options={Browse.navigationOptions} />
 			<Stack.Screen name="Profile" component={Profile} />
+			<Stack.Screen name="CategoryCourses" component={CategoryCourses} options={{ headerShown: false }} />
 		</Stack.Navigator>
 	);
 };
