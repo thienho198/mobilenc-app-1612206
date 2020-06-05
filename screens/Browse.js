@@ -154,7 +154,16 @@ const Browse = (props) => {
 					width="100%"
 					height={86}
 					uri="https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-					onPress={() => props.navigation.navigate('CategoryCourses')}
+					onPress={() => {
+						props.navigation.navigate('CategoryCourses', {
+							CategoryCourses: {
+								uriImage:
+									'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+								percentHeightImage: 30,
+								courseName: 'NEW RELEASES'
+							}
+						});
+					}}
 				>
 					<Text
 						style={{
@@ -171,6 +180,16 @@ const Browse = (props) => {
 					</Text>
 				</CategoryDisplay>
 				<CategoryDisplay
+					onPress={() => {
+						props.navigation.navigate('CategoryCourses', {
+							CategoryCourses: {
+								uriImage:
+									'https://images.unsplash.com/photo-1590948288641-fd9a53b8fb30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80',
+								percentHeightImage: 30,
+								courseName: 'RECOMENDED FOR YOU'
+							}
+						});
+					}}
 					width="100%"
 					height={86}
 					uri="https://images.unsplash.com/photo-1590948288641-fd9a53b8fb30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80"
