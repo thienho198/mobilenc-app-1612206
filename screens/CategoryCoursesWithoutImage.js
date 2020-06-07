@@ -1,12 +1,9 @@
 import React from 'react';
-import { Text } from 'react-native';
-
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Course from '../components/course/Course';
-import BGCategoryCourses from '../components/backgroundCategoryCourse/BGCategoryCourses';
 
-const CategoryCourses = (props) => {
-	// console.log('haha', props.route);
-	const dataProps = props.route.params.CategoryCourses;
+const CategoryCoursesWithoutImage = (props) => {
 	const dataCourses = [
 		{
 			uriImage: 'https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120',
@@ -119,26 +116,28 @@ const CategoryCourses = (props) => {
 		}
 	];
 	return (
-		<BGCategoryCourses
-			// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-			// percentHeightImage={30}
-			{...dataProps}
-			goBack={() => {
-				props.navigation.goBack();
-			}}
-		>
-			{dataCourses.map((item, index) => <Course key={index} {...item} />)}
-
-			{/* <Course
-				uriImage="https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120"
-				title="Debugging Progressive Web Apps"
-				authorName="Deeksha Sharma"
-				level="Beginner"
-				createTime="Jun 3, 2020"
-				duringTime="1h 25m"
-			/> */}
-		</BGCategoryCourses>
+		<View style={styles.mainView}>
+			<FlatList
+				data={dataCourses}
+				keyExtractor={(item, index) => index}
+				renderItem={({ item }) => <Course {...item} tintColor="#2590e9" />}
+				showsVerticalScrollIndicator={false}
+			/>
+		</View>
 	);
 };
 
-export default CategoryCourses;
+CategoryCoursesWithoutImage.navigationOptions = (props) => {
+	return {
+		headerTitle: props.route.params.CategoryCoursesWithoutImage.title
+	};
+};
+
+const styles = StyleSheet.create({
+	mainView: {
+		flex: 1,
+		backgroundColor: '#eef6fd'
+	}
+});
+
+export default CategoryCoursesWithoutImage;

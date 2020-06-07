@@ -1,12 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { TabActions } from '@react-navigation/native';
 
 const Home = (props) => {
+	const jumpToAction = TabActions.jumpTo('Browse');
 	return (
 		<View style={styles.mainView}>
 			<Text style={styles.titleMain}>Let's get you started</Text>
-			<Icon type="material" name="dns" size={40} color="#2590e9" />
+			<TouchableOpacity
+				onPress={() => {
+					props.navigation.dispatch(jumpToAction);
+				}}
+			>
+				<Icon type="material" name="dns" size={40} color="#2590e9" />
+			</TouchableOpacity>
+
 			<Text style={{ marginBottom: 20 }}>Browse new and popular courses</Text>
 			<Icon type="material" name="search" size={40} color="#2590e9" />
 			<Text>Search the library</Text>

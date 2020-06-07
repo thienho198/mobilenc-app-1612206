@@ -13,42 +13,48 @@ const Browse = (props) => {
 			uri:
 				'https://images.unsplash.com/photo-1587613866780-23b903d3d97a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'CONFERENCE'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>Software development</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1591000113910-81b25a4a2df0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'Software development'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>IT ops</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1591035742999-2398c2ad8607?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'IT ops'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>DATA PROFESSTIONAL</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1591053204517-11b88b43d822?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=711&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'DATA PROFESSTIONAL'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>BUSINESS PROFESSTIONAL</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1591066538126-8f14b8d1ff41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'BUSINESS PROFESSTIONAL'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>CREATIVE PROFESSTIONAL</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'CREATIVE PROFESSTIONAL'
 		},
 		{
 			content: (
@@ -57,7 +63,8 @@ const Browse = (props) => {
 			uri:
 				'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'MANUFACTURING AND DESIGN'
 		},
 		{
 			content: (
@@ -66,14 +73,16 @@ const Browse = (props) => {
 			uri:
 				'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'ARCHITECTURE AND CONTRUCTION'
 		},
 		{
 			content: <Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>CERTIFICATIONS</Text>,
 			uri:
 				'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
 			width: 170,
-			height: 65
+			height: 65,
+			contentText: 'CERTIFICATIONS'
 		}
 	];
 	const dataTagPopularSkills = [
@@ -141,7 +150,9 @@ const Browse = (props) => {
 					colorHex="#2590e9"
 					textColor="white"
 					style={{ marginTop: 10, width: 300 }}
-					// onPress={onLoginPress}
+					onPress={() => {
+						props.navigation.navigate('Login');
+					}}
 				/>
 			</View>
 		);
@@ -160,7 +171,8 @@ const Browse = (props) => {
 								uriImage:
 									'https://images.unsplash.com/photo-1590982963729-d5f71ccb7d03?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
 								percentHeightImage: 30,
-								courseName: 'NEW RELEASES'
+								categoryName: 'NEW RELEASES',
+								percentTitleHeight: 30
 							}
 						});
 					}}
@@ -186,7 +198,8 @@ const Browse = (props) => {
 								uriImage:
 									'https://images.unsplash.com/photo-1590948288641-fd9a53b8fb30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80',
 								percentHeightImage: 30,
-								courseName: 'RECOMENDED FOR YOU'
+								categoryName: 'RECOMENDED FOR YOU',
+								percentTitleHeight: 30
 							}
 						});
 					}}
@@ -223,11 +236,39 @@ const Browse = (props) => {
 					data={dataForFlatList2Row}
 					renderItem={({ item }) => (
 						<View style={{ justifyContent: 'space-between', marginRight: 6 }}>
-							<CategoryDisplay width={item[0].width} height={item[0].height} uri={item[0].uri}>
+							<CategoryDisplay
+								onPress={() => {
+									props.navigation.navigate('CategoruCoursesHorizontalList', {
+										CategoruCoursesHorizontalList: {
+											uriImage: item[0].uri,
+											percentHeightImage: 50,
+											categoryName: item[0].contentText,
+											percentTitleHeight: 20
+										}
+									});
+								}}
+								width={item[0].width}
+								height={item[0].height}
+								uri={item[0].uri}
+							>
 								{item[0].content}
 							</CategoryDisplay>
 							{item.length > 1 && (
-								<CategoryDisplay width={item[1].width} height={item[1].height} uri={item[1].uri}>
+								<CategoryDisplay
+									onPress={() => {
+										props.navigation.navigate('CategoruCoursesHorizontalList', {
+											CategoruCoursesHorizontalList: {
+												uriImage: item[1].uri,
+												percentHeightImage: 50,
+												categoryName: item[1].contentText,
+												percentTitleHeight: 20
+											}
+										});
+									}}
+									width={item[1].width}
+									height={item[1].height}
+									uri={item[1].uri}
+								>
 									{item[1].content}
 								</CategoryDisplay>
 							)}
@@ -247,7 +288,34 @@ const Browse = (props) => {
 					horizontal={true}
 					data={dataTagPopularSkills}
 					keyExtractor={(item, index) => index}
-					renderItem={({ item }) => <Tag content={item} style={{ marginRight: 5 }} />}
+					renderItem={({ item, index }) =>
+						index === 0 ? (
+							<Tag
+								onPress={() => {
+									props.navigation.navigate('CategoryCoursesWithoutImage', {
+										CategoryCoursesWithoutImage: {
+											title: item
+										}
+									});
+								}}
+								content={item}
+								style={{ marginRight: 5, backgroundColor: 'white', marginLeft: 10 }}
+								color="#2590e9"
+							/>
+						) : (
+							<Tag
+								onPress={() => {
+									props.navigation.navigate('CategoryCoursesWithoutImage', {
+										CategoryCoursesWithoutImage: {
+											title: item
+										}
+									});
+								}}
+								content={item}
+								style={{ marginRight: 5, backgroundColor: 'white' }}
+								color="#2590e9"
+							/>
+						)}
 					showsHorizontalScrollIndicator={false}
 				/>
 			</View>

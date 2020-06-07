@@ -1,12 +1,15 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 
 import Course from '../components/course/Course';
 import BGCategoryCourses from '../components/backgroundCategoryCourse/BGCategoryCourses';
+import Tag from '../components/tag/Tag';
+import AuthorCircle from '../components/authorCircle/AuthorCircle';
+import CoursesListVertical from '../components/course/CoursesListVertical';
 
-const CategoryCourses = (props) => {
+const CategoruCoursesHorizontalList = (props) => {
+	const dataProps = props.route.params.CategoruCoursesHorizontalList;
 	// console.log('haha', props.route);
-	const dataProps = props.route.params.CategoryCourses;
 	const dataCourses = [
 		{
 			uriImage: 'https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120',
@@ -118,6 +121,102 @@ const CategoryCourses = (props) => {
 			duringTime: '1h 17m'
 		}
 	];
+	const skills = [
+		'Network Infrastucture',
+		'Server Infrastructure',
+		'Clound Computing',
+		'Virtualization',
+		'Infomation Security',
+		'Windows Server',
+		'Automation',
+		'Endpoint Management',
+		'DevOps',
+		'Operating Systems',
+		'Application Deployment',
+		'It Fundamentals',
+		'Penetration Testing',
+		'PowerShell',
+		'Microsoft Azure',
+		'Database Administration',
+		'AWS'
+	];
+	const dataAuthors = [
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20151024386876251.jpg',
+			authorName: 'Felica G Frank'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male1085779685638.jpg',
+			authorName: 'Kenneth T Sutton'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20161025087137757.jpg',
+			authorName: 'Anna C Anaya'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female20151024249172608.jpg',
+			authorName: 'Brenda M Wynne'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male20171085984168854.jpg',
+			authorName: 'Michael C Williams'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/male/male20171084062504120.jpg',
+			authorName: 'Chad E Cote'
+		},
+		{
+			uriImage: 'https://www.fakepersongenerator.com/Face/female/female1022402225678.jpg',
+			authorName: 'Jennifer T Jones'
+		}
+	];
+	const SkillArea = () => {
+		return (
+			<View style={{ height: 65, marginTop: 20 }}>
+				<Text style={{ marginLeft: 10, marginBottom: 10, color: 'white' }}>
+					{dataProps.categoryName + ' Skills'}
+				</Text>
+				<FlatList
+					horizontal={true}
+					data={skills}
+					keyExtractor={(item, index) => index}
+					renderItem={({ item, index }) =>
+						index === 0 ? (
+							<Tag
+								content={item}
+								style={{ marginRight: 5, backgroundColor: 'white', marginLeft: 10 }}
+								color="#2590e9"
+							/>
+						) : (
+							<Tag content={item} style={{ marginRight: 5, backgroundColor: 'white' }} color="#2590e9" />
+						)}
+					showsHorizontalScrollIndicator={false}
+				/>
+			</View>
+		);
+	};
+	const topAuthor = () => {
+		return (
+			<View style={{ height: 140, marginTop: 10 }}>
+				<Text style={{ marginLeft: 10, marginBottom: 10, fontWeight: 'bold', color: 'white' }}>
+					{`Top Authors in ${dataProps.categoryName}`}{' '}
+				</Text>
+				<FlatList
+					data={dataAuthors}
+					horizontal={true}
+					renderItem={({ item }) => <AuthorCircle {...item} style={{ marginRight: 10 }} colorText="white" />}
+					keyExtractor={(item, index) => index}
+					showsHorizontalScrollIndicator={false}
+				/>
+			</View>
+		);
+	};
+	const newIn = () => {
+		return <CoursesListVertical dataList={dataCourses} listTitle={`New in ${dataProps.categoryName}`} />;
+	};
+	const trendingIn = () => {
+		return <CoursesListVertical dataList={dataCourses} listTitle={`Trending in ${dataProps.categoryName}`} />;
+	};
 	return (
 		<BGCategoryCourses
 			// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
@@ -127,7 +226,12 @@ const CategoryCourses = (props) => {
 				props.navigation.goBack();
 			}}
 		>
-			{dataCourses.map((item, index) => <Course key={index} {...item} />)}
+			{SkillArea()}
+			{newIn()}
+			{trendingIn()}
+			{topAuthor()}
+
+			{/* {dataCourses.map((item, index) => <Course key={index} {...item} />)} */}
 
 			{/* <Course
 				uriImage="https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120"
@@ -141,4 +245,4 @@ const CategoryCourses = (props) => {
 	);
 };
 
-export default CategoryCourses;
+export default CategoruCoursesHorizontalList;

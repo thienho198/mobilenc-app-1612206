@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { vh } from 'react-native-css-vh-vw';
 
 const BGCategoryCourses = (props) => {
-	const { uriImage, percentHeightImage, courseName } = props.route.params.CategoryCourses;
+	const { uriImage, percentHeightImage, categoryName, percentTitleHeight } = props;
 
 	//#region render
 	return (
@@ -14,7 +14,11 @@ const BGCategoryCourses = (props) => {
 		// 	style={{ flex: 1 }}
 		// 	locations={[ 0, 0.2 ]}
 		// >
-		<ScrollView style={styles.mainView} contentContainerStyle={{}}>
+		<ScrollView
+			showsVerticalScrollIndicator={false}
+			style={styles.mainView}
+			contentContainerStyle={{ backgroundColor: 'rgba(37, 144, 233, 1)' }}
+		>
 			<LinearGradient
 				colors={[ 'rgba(255,255,255, 0.2)', 'rgba(37, 144, 233, 1)' ]}
 				locations={[ 0, 0.5 ]}
@@ -38,14 +42,14 @@ const BGCategoryCourses = (props) => {
 			<TouchableOpacity
 				style={{ position: 'absolute', top: 30, left: 10 }}
 				onPress={() => {
-					props.navigation.goBack();
+					props.goBack();
 				}}
 			>
 				<Icon type="font-awesome-5" name="arrow-left" color="white" />
 			</TouchableOpacity>
 			<View
 				style={{
-					height: vh(percentHeightImage),
+					height: vh(percentTitleHeight),
 					justifyContent: 'center',
 					alignItems: 'center'
 				}}
@@ -56,13 +60,14 @@ const BGCategoryCourses = (props) => {
 						color: 'white',
 						fontSize: 35,
 						width: 250,
+						paddingTop: 30,
 						fontWeight: 'bold'
 					}}
 				>
-					{courseName}
+					{categoryName}
 				</Text>
 			</View>
-			<View style={{ backgroundColor: 'rgba(37, 144, 233, 1)' }}>{props.children}</View>
+			<View style={{}}>{props.children}</View>
 		</ScrollView>
 		// </LinearGradient>
 	);

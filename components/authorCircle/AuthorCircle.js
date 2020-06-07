@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 
 const AuthorCircle = (props) => {
-	const { authorName, uriImage, style } = props;
+	const { authorName, uriImage, style, colorText } = props;
 
 	//#region render
 	return (
@@ -13,7 +13,7 @@ const AuthorCircle = (props) => {
 					uri: uriImage
 				}}
 			/>
-			<Text style={{ textAlign: 'center' }}>{authorName}</Text>
+			<Text style={{ textAlign: 'center', color: colorText }}>{authorName}</Text>
 		</View>
 	);
 };
