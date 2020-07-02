@@ -10,16 +10,20 @@ const InputField = (props) => {
 	}
 	const isDatePicker = props.isDatePicker ? props.isDatePicker : false;
 	const textInput = isDatePicker ? (
-		
 		<TouchableOpacity onPress={props.onHandleShowDTPicker} style={styles.field}>
-			<View style={{flex: 1, justifyContent: 'flex-end', flexDirection:'row'}}>
-	<Text style={{paddingTop: 4, margin:0,  flex: 1, textAlign: 'left'}}>{props.date}</Text>
-				<Icon name='today' color='#E5008B' style={{ marginRight: 8 }} />
+			<View style={{ flex: 1, justifyContent: 'flex-end', flexDirection: 'row' }}>
+				<Text style={{ paddingTop: 4, margin: 0, flex: 1, textAlign: 'left' }}>{props.date}</Text>
+				<Icon name="today" color="#E5008B" style={{ marginRight: 8 }} />
 			</View>
 		</TouchableOpacity>
 	) : (
-		<TextInput style={styles.field} placeholder={props.placeholder} />
-	)
+		<TextInput
+			style={styles.field}
+			placeholder={props.placeholder}
+			onChangeText={props.onChange}
+			secureTextEntry={props.secureTextEntry}
+		/>
+	);
 	return (
 		<View style={{ ...styles.container, ...styleBorderContainer }}>
 			<Text style={styles.label}>{props.label}</Text>
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderRadius: 20,
 		width: 300,
-		paddingHorizontal: 20,
+		paddingHorizontal: 20
 	},
 	label: {
 		marginRight: 10,
