@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
+import { Provider } from 'react-redux';
 
+import { store } from './store/store';
 import SignupPage from './screens/signupPage';
 import LoginPageNew from './screens/loginPageNew';
 
@@ -28,10 +30,11 @@ export default function App() {
 			}}
 		/>
 	) : (
-		<NavigationContainer>
-			<MyStack />
-		</NavigationContainer>
-
+		<Provider store={store}>
+			<NavigationContainer>
+				<MyStack />
+			</NavigationContainer>
+		</Provider>
 		// <View style={styles.container}>
 		// 	<SignupPage />
 		// </View>

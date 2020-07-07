@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Text,
 	View,
@@ -9,25 +9,54 @@ import {
 	Image,
 	TouchableOpacity
 } from 'react-native';
+import { connect } from 'react-redux';
+import * as authActions from '../store/actions/auth';
 
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import InputField from '../components/inputField/inputField';
 import ButtonFBGG from '../components/buttonFBGG/buttonFBGG';
 
 const LoginPageNew = (props) => {
+	//#region state
+	const [ dataPost, setDataPost ] = useState({});
 	//#region event
 	const onHandleSignUpPress = () => {
 		props.navigation.navigate('SignUp');
 	};
 	const onLoginPress = () => {
-		props.navigation.navigate('MainTab');
+		console.log(dataPost);
+		props.login(dataPost, props.navigation);
+		// props.navigation.navigate('MainTab');
 	};
 	return (
 		<View style={styles.container}>
 			{/* <Text style={styles.mainLabel}>Login</Text> */}
 			<Image source={require('../assets/images/users.png')} resizeMode="cover" style={styles.image} />
-			<InputField label="Email:" placeholder="Enter email" isFocus={true} />
-			<InputField label="Password:" placeholder="Enter password" />
+			<InputField
+				label="Email:"
+				placeholder="Enter email"
+				isFocus={true}
+				onChange={(value) => {
+					setDataPost((prevS) => {
+						return {
+							...prevS,
+							email: value
+						};
+					});
+				}}
+			/>
+			<InputField
+				label="Password:"
+				placeholder="Enter password"
+				onChange={(value) => {
+					setDataPost((prevS) => {
+						return {
+							...prevS,
+							password: value
+						};
+					});
+				}}
+			/>
 			<Text style={styles.forgotPstext}>Forgot password?</Text>
 			<ButtonLGSN
 				btnName="LOGIN"
@@ -97,4 +126,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default LoginPageNew;
+const mapDispatchToProp = (dispatch) => {
+	return {
+		login: (datatPost, navigation) => dispatch(authActions.authLogin(datatPost, navigation))
+	};
+};
+export default connect(null, mapDispatchToProp)(LoginPageNew);
