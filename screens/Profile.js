@@ -19,6 +19,7 @@ const Profile = (props) => {
 					{/* <Text style={{ fontSize: 19 }}>{props.authData.name}</Text> */}
 					<Text style={{ fontSize: 18, fontWeight: 'bold' }}>{props.authData.email}</Text>
 					<Text style={{ fontSize: 14 }}>{props.authData.type}</Text>
+					<Text style={{ fontSize: 14 }}>{props.authData.phone}</Text>
 					<View style={{ flexDirection: 'row', marginTop: 2 }}>
 						<TouchableOpacity
 							style={{
@@ -29,6 +30,9 @@ const Profile = (props) => {
 								justifyContent: 'center',
 								marginRight: 10,
 								paddingHorizontal: 10
+							}}
+							onPress={() => {
+								props.navigation.navigate('Change password');
 							}}
 						>
 							<Text style={{ color: 'white' }}>Change Password</Text>
@@ -47,6 +51,21 @@ const Profile = (props) => {
 							<Text style={{ color: 'white' }}>Logout</Text>
 						</TouchableOpacity>
 					</View>
+					<TouchableOpacity
+						style={{
+							backgroundColor: '#fd7e14',
+							borderRadius: 8,
+							padding: 4,
+							marginTop: 4,
+							justifyContent: 'center',
+							paddingHorizontal: 10
+						}}
+						onPress={() => {
+							props.navigation.navigate('Update profile');
+						}}
+					>
+						<Text style={{ color: 'white' }}>Update profile</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 		</View>

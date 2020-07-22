@@ -5,6 +5,8 @@ import { View } from 'react-native';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import LoginPage from '../screens/loginPageNew';
+import ChangepasswordPage from '../screens/ChangePassword';
+import UpdateProfile from '../screens/UpdateProfile';
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
@@ -23,6 +25,8 @@ const HomeNavigator = () => {
 		>
 			<Stack.Screen name="Home" component={Home} options={Home.navigationOptions} />
 			<Stack.Screen name="Profile" component={Profile} />
+			<Stack.Screen name="Change password" component={ChangepasswordPage} />
+			<Stack.Screen name="Update profile" component={UpdateProfile} />
 		</Stack.Navigator>
 	);
 };

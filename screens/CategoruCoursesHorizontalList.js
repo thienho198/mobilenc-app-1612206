@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, FlatList } from 'react-native';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Course from '../components/course/Course';
 import BGCategoryCourses from '../components/backgroundCategoryCourse/BGCategoryCourses';
 import Tag from '../components/tag/Tag';
 import AuthorCircle from '../components/authorCircle/AuthorCircle';
 import CoursesListVertical from '../components/course/CoursesListVertical';
+import axios from '../axios/myAxios';
 
 const CategoruCoursesHorizontalList = (props) => {
 	const dataProps = props.route.params.CategoruCoursesHorizontalList;
 	// console.log('haha', props.route);
+	const [ listCourses, setListCourses ] = useState([]);
+	const [ listInstructors, setListInstructors ] = useState([]);
 	const dataCourses = [
 		{
 			uriImage: 'https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120',
@@ -202,7 +207,7 @@ const CategoruCoursesHorizontalList = (props) => {
 					{`Top Authors in ${dataProps.categoryName}`}{' '}
 				</Text>
 				<FlatList
-					data={dataAuthors}
+					data={listInstructors}
 					horizontal={true}
 					renderItem={({ item }) => <AuthorCircle {...item} style={{ marginRight: 10 }} colorText="white" />}
 					keyExtractor={(item, index) => index}
@@ -212,11 +217,50 @@ const CategoruCoursesHorizontalList = (props) => {
 		);
 	};
 	const newIn = () => {
-		return <CoursesListVertical dataList={dataCourses} listTitle={`New in ${dataProps.categoryName}`} />;
+		return <CoursesListVertical dataList={listCourses} listTitle={`New in ${dataProps.categoryName}`} {...props} />;
 	};
 	const trendingIn = () => {
-		return <CoursesListVertical dataList={dataCourses} listTitle={`Trending in ${dataProps.categoryName}`} />;
+		return (
+			<CoursesListVertical
+				dataList={listCourses}
+				listTitle={`Trending in ${dataProps.categoryName}`}
+				{...props}
+			/>
+		);
 	};
+	useEffect(() => {
+		console.log('id course', dataProps.idCourse);
+		axios
+			.post(`/course/search`, {
+				keyword: '',
+				opt: {
+					category: [ dataProps.idCourse ]
+				},
+				limit: 20,
+				offset: 0
+			})
+			.then((response) => {
+				let listCourse = response.data.payload.rows;
+				console.log(listCourse);
+				listCourse = listCourse.map((course, index) => {
+					course.duringTime = course.totalHours.toString() + 'h';
+					course.uriImage = course.imageUrl;
+					course.createTime = moment(course.createdAt || course.updatedAt).format('MMM Do YY');
+					return { ...dataCourses[index], ...course };
+				});
+				setListCourses(listCourse);
+			});
+		axios.get('/instructor').then((response) => {
+			let listInstructors = response.data.payload;
+
+			listInstructors = listInstructors.map((instructor, index) => {
+				instructor.authorName = instructor['user.name'];
+				instructor.uriImage = instructor['user.avatar'];
+				return { ...dataAuthors[index], ...instructor };
+			});
+			setListInstructors(listInstructors);
+		});
+	}, []);
 	return (
 		<BGCategoryCourses
 			// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
@@ -245,4 +289,9 @@ const CategoruCoursesHorizontalList = (props) => {
 	);
 };
 
-export default CategoruCoursesHorizontalList;
+const mapStateToProps = (state) => {
+	return {
+		id: state.auth.authData.id
+	};
+};
+export default connect(mapStateToProps)(CategoruCoursesHorizontalList);

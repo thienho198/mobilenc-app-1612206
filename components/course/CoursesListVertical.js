@@ -9,12 +9,12 @@ const CoursesListVertical = (props) => {
 		<View style={{ marginTop: 10 }}>
 			<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
 				<Text style={{ marginLeft: 10, fontWeight: 'bold', color: 'white' }}>{listTitle}</Text>
-				<Text style={{ marginRight: 10, color: 'white' }}>See all ></Text>
+				<Text style={{ marginRight: 10, color: 'white' }}>See all </Text>
 			</View>
 			<FlatList
 				keyExtractor={(item, index) => index}
 				data={dataList}
-				renderItem={({ item }) => <CourseVertical {...item} />}
+				renderItem={({ item }) => <CourseVertical {...props} {...item} />}
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}
 			/>

@@ -3,20 +3,33 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const CourseVertical = (props) => {
-	const { uriImage, title, authorName, level, createTime, duringTime } = props;
+	const { uriImage, title, authorName, level, createTime, duringTime, id } = props;
 	//#region render
+	console.log('qwe', id);
 	return (
-		<View style={styles.mainView}>
-			<Image style={styles.image} source={{ uri: uriImage }} />
-			<TouchableOpacity style={styles.icon_ellipsis_v}>
-				<Icon type="font-awesome-5" name="ellipsis-v" color="white" size={16} />
-			</TouchableOpacity>
-			<View style={{ marginVertical: 5, flex: 1, marginLeft: 10 }}>
-				<Text style={{ ...styles.textColor, fontWeight: 'bold', fontSize: 17, maxHeight: 45 }}>{title}</Text>
-				<Text style={styles.textColor}>{authorName}</Text>
-				<Text style={styles.textColor}>{`${level} - ${createTime} - ${duringTime}`}</Text>
+		<TouchableOpacity
+			onPress={() => {
+				props.navigation.navigate('PlayVideoPage', {
+					PlayVideoPage: {
+						id: id
+					}
+				});
+			}}
+		>
+			<View style={styles.mainView}>
+				<Image style={styles.image} source={{ uri: uriImage }} />
+				<TouchableOpacity style={styles.icon_ellipsis_v}>
+					<Icon type="font-awesome-5" name="ellipsis-v" color="white" size={16} />
+				</TouchableOpacity>
+				<View style={{ marginVertical: 5, flex: 1, marginLeft: 10 }}>
+					<Text style={{ ...styles.textColor, fontWeight: 'bold', fontSize: 17, maxHeight: 45 }}>
+						{title}
+					</Text>
+					<Text style={styles.textColor}>{authorName}</Text>
+					<Text style={styles.textColor}>{`${level} - ${createTime} - ${duringTime}`}</Text>
+				</View>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 

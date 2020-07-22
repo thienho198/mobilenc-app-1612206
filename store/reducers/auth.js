@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
 				authData: action.authData
 			});
 		case actionTypes.AUTH_LOGOUT:
-			return updateObject(state, { isAuthenticated: false, authData: null });
+			return updateObject(state, { isAuthenticated: false, authData: {} });
 		default:
 			return state;
 	}

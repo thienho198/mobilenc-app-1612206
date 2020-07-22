@@ -7,6 +7,7 @@ import Profile from '../screens/Profile';
 import CategoryCourses from '../screens/CategoryCourses';
 import CategoruCoursesHorizontalList from '../screens/CategoruCoursesHorizontalList';
 import CategoryCoursesWithoutImage from '../screens/CategoryCoursesWithoutImage';
+import PlayVideoPage from '../screens/PlayVideoPage';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ const HomeNavigator = () => {
 				component={CategoryCoursesWithoutImage}
 				options={CategoryCoursesWithoutImage.navigationOptions}
 			/>
+			<Stack.Screen name="PlayVideoPage" component={PlayVideoPage} options={{ headerShown: false }} />
 		</Stack.Navigator>
 	);
 };

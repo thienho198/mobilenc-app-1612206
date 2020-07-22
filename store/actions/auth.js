@@ -114,7 +114,7 @@ export const authLogin = (data, navigation) => {
 			.catch((err) => {
 				Alert.alert(
 					'Thông báo',
-					'Đăng ký thành công',
+					'Mật khẩu hoặc email không chính xác',
 					[
 						{
 							text: 'Cancel',

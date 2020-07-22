@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Text } from 'react-native';
 
 import Course from '../components/course/Course';
 import BGCategoryCourses from '../components/backgroundCategoryCourse/BGCategoryCourses';
+import axios from '../axios/myAxios';
 
 const CategoryCourses = (props) => {
 	// console.log('haha', props.route);
@@ -118,6 +120,7 @@ const CategoryCourses = (props) => {
 			duringTime: '1h 17m'
 		}
 	];
+
 	return (
 		<BGCategoryCourses
 			// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"

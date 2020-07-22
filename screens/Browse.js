@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, FlatList, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import CategoryDisplay from '../components/categoryDisplay/CategoryDisplay';
 import Tag from '../components/tag/Tag';
 import AuthorCircle from '../components/authorCircle/AuthorCircle';
+import axios from '../axios/myAxios';
 
 const Browse = (props) => {
 	const dataCategoryDiplay = [
@@ -136,6 +137,29 @@ const Browse = (props) => {
 			authorName: 'Jennifer T Jones'
 		}
 	];
+
+	const [ listCourseData, setListCourseData ] = useState([]);
+	//#region lifeCycle
+	useEffect(() => {
+		axios
+			.get('/category/all')
+			.then((response) => {
+				let listCourse = response.data.payload;
+				listCourse = listCourse.map((course, index) => {
+					return {
+						...course,
+						...dataCategoryDiplay[index],
+						content: (
+							<Text style={{ fontSize: 19, color: 'white', textAlign: 'center' }}>{course.name}</Text>
+						),
+						contentText: course.name
+					};
+				});
+				console.log('listCourseData', listCourse);
+				setListCourseData(listCourse);
+			})
+			.catch((error) => console.log(error));
+	}, []);
 	//#region render
 
 	const inviteLoginArea = () => {
@@ -226,8 +250,8 @@ const Browse = (props) => {
 	};
 	const smallCategoryDisplayArea = () => {
 		const dataForFlatList2Row = [];
-		while (dataCategoryDiplay.length > 0) {
-			dataForFlatList2Row.push(dataCategoryDiplay.splice(0, 2));
+		while (listCourseData.length > 0) {
+			dataForFlatList2Row.push(listCourseData.splice(0, 2));
 		}
 		return (
 			<View style={{ height: 136, width: '100%', marginTop: 10, paddingLeft: 10 }}>
@@ -243,7 +267,8 @@ const Browse = (props) => {
 											uriImage: item[0].uri,
 											percentHeightImage: 50,
 											categoryName: item[0].contentText,
-											percentTitleHeight: 20
+											percentTitleHeight: 20,
+											idCourse: item[0].id
 										}
 									});
 								}}
@@ -261,7 +286,8 @@ const Browse = (props) => {
 												uriImage: item[1].uri,
 												percentHeightImage: 50,
 												categoryName: item[1].contentText,
-												percentTitleHeight: 20
+												percentTitleHeight: 20,
+												idCourse: item[1].id
 											}
 										});
 									}}

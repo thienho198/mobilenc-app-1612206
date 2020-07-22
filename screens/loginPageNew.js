@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import * as authActions from '../store/actions/auth';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import InputField from '../components/inputField/inputField';
 import ButtonFBGG from '../components/buttonFBGG/buttonFBGG';
@@ -31,6 +32,7 @@ const LoginPageNew = (props) => {
 	return (
 		<View style={styles.container}>
 			{/* <Text style={styles.mainLabel}>Login</Text> */}
+			<Spinner visible={props.isLoading} textContent={'Loading...'} textStyle={{ color: '#FFF' }} />
 			<Image source={require('../assets/images/users.png')} resizeMode="cover" style={styles.image} />
 			<InputField
 				label="Email:"
@@ -56,6 +58,7 @@ const LoginPageNew = (props) => {
 						};
 					});
 				}}
+				secureTextEntry
 			/>
 			<Text style={styles.forgotPstext}>Forgot password?</Text>
 			<ButtonLGSN
@@ -129,6 +132,11 @@ const styles = StyleSheet.create({
 const mapDispatchToProp = (dispatch) => {
 	return {
 		login: (datatPost, navigation) => dispatch(authActions.authLogin(datatPost, navigation))
+	};
+};
+const mapStateToProps = (state) => {
+	return {
+		isLoading: state.auth.loading
 	};
 };
 export default connect(null, mapDispatchToProp)(LoginPageNew);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, usePrevious } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TabActions } from '@react-navigation/native';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ const Home = (props) => {
 	useEffect(
 		() => {
 			id &&
-				axios.get(`/user/recommend-course/${id}/10/1`).then((res) => {
+				axios.get(`/user/recommend-course/${id}/10/0`).then((res) => {
 					setRecommendedData(res.data.payload);
 					console.log('payload', recommendedData);
 				});
@@ -55,14 +55,20 @@ const Home = (props) => {
 	};
 	//#region render
 	return props.isAuthenticated ? (
-		<View style={{ backgroundColor: '#eef6fd', flex: 1 }}>
-			<Text style={{ marginLeft: 10, marginBottom: 10, fontWeight: 'bold', marginTop: 5, fontSize: 20 }}>
-				Recommend Courses
-			</Text>
-			<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-				{recommendedData.map((item) => renderItem(item))}
+		<ScrollView
+			showsVerticalScrollIndicator={false}
+			style={{ flex: 1 }}
+			contentContainerStyle={{ backgroundColor: 'rgba(37, 144, 233, 1)' }}
+		>
+			<View style={{ backgroundColor: '#eef6fd', flex: 1 }}>
+				<Text style={{ marginLeft: 10, marginBottom: 10, fontWeight: 'bold', marginTop: 5, fontSize: 20 }}>
+					Recommend Courses
+				</Text>
+				<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+					{recommendedData.map((item) => renderItem(item))}
+				</View>
 			</View>
-		</View>
+		</ScrollView>
 	) : (
 		<View style={styles.mainView}>
 			<Text style={styles.titleMain}>Let's get you started</Text>

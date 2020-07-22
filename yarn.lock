@@ -1323,6 +1323,11 @@
     lodash "^4.5.0"
     prop-types "^15.6.1"
 
+"@valdio/react-native-scrollable-tabview@^0.8.12":
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/@valdio/react-native-scrollable-tabview/-/react-native-scrollable-tabview-0.8.12.tgz#be3b28387459e4055d1b191ada98b98d3b496ca1"
+  integrity sha512-4aYnb7lA4Mo7+U2xijbKwJ7jcphBJs0ILVlvqa+SB9jg1sy1M+CkcNHwUTTnK60lCFXLCseJmECtu/JRR8ZpzA==
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
