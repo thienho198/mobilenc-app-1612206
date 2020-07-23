@@ -8,6 +8,8 @@ import { ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import _ from 'lodash';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { Video } from 'expo-av';
 
 const FirstRoute = () => (
 	<View style={[ styles.container, {} ]}>
@@ -94,7 +96,10 @@ class CollapsibleExample extends Component {
 				height: 50
 			},
 			render: 1,
-			dataLoad: {}
+			dataLoad: {},
+			loading: true,
+			shouldPlay: false,
+			isMuted: false
 		};
 	}
 
@@ -107,9 +112,12 @@ class CollapsibleExample extends Component {
 		axios
 			.get(`/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`)
 			.then((res) => {
-				this.setState({ dataLoad: res.data.payload });
+				this.setState({ dataLoad: res.data.payload, loading: false });
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				this.setState({ loading: false });
+			});
 	}
 	renderLesson = (section) => {
 		return (
@@ -117,18 +125,23 @@ class CollapsibleExample extends Component {
 				<Text style={{ fontSize: 19, color: 'white' }}>{section.name}</Text>
 				{section.lesson.map((item) => {
 					return (
-						<View style={{ flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+						<TouchableOpacity
+							style={{ flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}
+							onPress={() => {
+								this.setState({ urlVideo: item.videoUrl });
+							}}
+						>
 							<View
 								style={{
 									height: 7,
 									width: 7,
 									borderRadius: 999,
-									backgroundColor: 'black',
+									backgroundColor: 'white',
 									marginRight: 5
 								}}
 							/>
 							<Text style={{ fontSize: 16, color: 'white', marginBottom: 4 }}>{item.name}</Text>
-						</View>
+						</TouchableOpacity>
 					);
 				})}
 			</View>
@@ -142,12 +155,12 @@ class CollapsibleExample extends Component {
 						height: 40,
 						width: 40,
 						borderRadius: 20,
-						backgroundColor: 'yellow',
+						backgroundColor: '#72b7f1',
 						justifyContent: 'center',
 						alignItems: 'center'
 					}}
 				>
-					<Icon type="font-awesome-5" name={iconName} color="black" size={17} />
+					<Icon type="font-awesome-5" name={iconName} color="white" size={17} />
 				</View>
 				<Text style={{ color: 'white' }}>{name}</Text>
 			</View>
@@ -157,7 +170,7 @@ class CollapsibleExample extends Component {
 		return (
 			<View
 				style={{
-					backgroundColor: 'red',
+					backgroundColor: '#3498eb',
 					alignItems: 'flex-start',
 					paddingVertical: 12,
 					paddingHorizontal: 7
@@ -169,7 +182,7 @@ class CollapsibleExample extends Component {
 				<View
 					style={{
 						flexDirection: 'row',
-						backgroundColor: 'yellow',
+						backgroundColor: '#72b7f1',
 						padding: 3,
 						borderRadius: 999,
 						paddingRight: 6,
@@ -183,7 +196,7 @@ class CollapsibleExample extends Component {
 								'https://images.unsplash.com/photo-1595350670723-6618500e6f94?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80'
 						}}
 					/>
-					<Text> {_.get(this.state.dataLoad, 'instructor.name')}</Text>
+					<Text style={{ color: 'white' }}> {_.get(this.state.dataLoad, 'instructor.name')}</Text>
 				</View>
 				<Text style={{ color: 'white', marginBottom: 10 }}>{`Beginner - ${moment(
 					_.get(this.state.dataLoad, 'createdAt')
@@ -203,7 +216,7 @@ class CollapsibleExample extends Component {
 						<TouchableOpacity
 							style={{
 								width: 25,
-								backgroundColor: 'yellow',
+								backgroundColor: '#72b7f1',
 								height: 45,
 								justifyContent: 'center',
 								borderRadius: 999
@@ -231,7 +244,7 @@ class CollapsibleExample extends Component {
 							<Icon
 								type="font-awesome-5"
 								name={this.state.toggleDescribe.iconName}
-								color="black"
+								color="white"
 								size={17}
 							/>
 						</TouchableOpacity>
@@ -242,7 +255,7 @@ class CollapsibleExample extends Component {
 	};
 	renderComponent2 = () => {
 		return (
-			<View style={{ height: 43, backgroundColor: 'yellow' }}>
+			<View style={{ height: 43, backgroundColor: '#2590e9' }}>
 				<View
 					style={{
 						flexDirection: 'row',
@@ -251,24 +264,24 @@ class CollapsibleExample extends Component {
 					}}
 				>
 					<View
-						style={{ backgroundColor: 'yellow', flex: 1, borderRightColor: 'black', borderRightWidth: 1 }}
+						style={{ backgroundColor: '#2590e9', flex: 1, borderRightColor: 'white', borderRightWidth: 1 }}
 					>
 						<TouchableOpacity
 							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
 							onPress={() => this.setState({ render: 1 })}
 						>
-							<Text>CONTENTS</Text>
+							<Text style={{ color: 'white' }}>CONTENTS</Text>
 						</TouchableOpacity>
-						<View style={{ height: this.state.render === 1 ? 3 : 0, backgroundColor: 'black' }} />
+						<View style={{ height: this.state.render === 1 ? 3 : 0, backgroundColor: 'white' }} />
 					</View>
-					<View style={{ backgroundColor: 'yellow', flex: 1 }}>
+					<View style={{ backgroundColor: '#2590e9', flex: 1 }}>
 						<TouchableOpacity
 							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
 							onPress={() => this.setState({ render: 2 })}
 						>
-							<Text>TRANSCRIPT</Text>
+							<Text style={{ color: 'white' }}>TRANSCRIPT</Text>
 						</TouchableOpacity>
-						<View style={{ height: this.state.render === 2 ? 3 : 0, backgroundColor: 'black' }} />
+						<View style={{ height: this.state.render === 2 ? 3 : 0, backgroundColor: 'white' }} />
 					</View>
 				</View>
 			</View>
@@ -277,7 +290,7 @@ class CollapsibleExample extends Component {
 	renderComponent3 = () => {
 		console.log('babe', _.get(this.state.dataLoad, 'section'));
 		return (
-			<View style={{ backgroundColor: 'green' }}>
+			<View style={{ backgroundColor: '#1788e6' }}>
 				{_.get(this.state.dataLoad, 'section') &&
 					_.get(this.state.dataLoad, 'section').map((item) => {
 						return this.renderLesson(item);
@@ -286,7 +299,12 @@ class CollapsibleExample extends Component {
 		);
 	};
 	renderComponent4 = () => {
-		return <View style={{ height: 500, backgroundColor: 'pink' }} />;
+		return (
+			<View style={{ height: 500, backgroundColor: '#1788e6', justifyContent: 'space-between' }}>
+				<Text style={{ color: 'white' }}>No transcription!-header</Text>
+				<Text style={{ color: 'white' }}>No transcription!-footer</Text>
+			</View>
+		);
 	};
 	render() {
 		const collapsableComponent = (
@@ -295,7 +313,65 @@ class CollapsibleExample extends Component {
 
 		return (
 			<View style={{ flex: 1 }}>
-				<View style={{ height: 200, backgroundColor: 'purple' }} />
+				<Spinner visible={this.state.loading} textContent={'Loading...'} textStyle={{ color: '#FFF' }} />
+				<View
+					style={{
+						height: 230,
+						backgroundColor: 'white',
+						position: 'relative',
+						justifyContent: 'center',
+						alignItems: 'center'
+					}}
+				>
+					<Text style={{ fontSize: 18 }}>Hãy chọn nội dung để phát...</Text>
+					<Video
+						source={{
+							uri: this.state.urlVideo
+						}}
+						shouldPlay={this.state.shouldPlay}
+						resizeMode="cover"
+						style={{
+							width: '100%',
+							height: 230,
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0
+						}}
+						isMuted={this.state.mute}
+					/>
+					<View
+						style={{
+							position: 'absolute',
+							bottom: 0,
+							left: 0,
+							right: 0,
+							height: 40,
+							flexDirection: 'row',
+							alignItems: 'center',
+							backgroundColor: 'rgba(0, 0, 0, 0.5)'
+						}}
+					>
+						<TouchableOpacity
+							onPress={() => {
+								this.setState((prevS) => {
+									return { shouldPlay: !prevS.shouldPlay };
+								});
+							}}
+							style={{
+								marginLeft: 10
+							}}
+						>
+							<Icon
+								type="font-awesome-5"
+								name={this.state.shouldPlay ? 'pause' : 'play'}
+								color="white"
+								size={17}
+							/>
+						</TouchableOpacity>
+					</View>
+				</View>
 				<ScrollView style={{ flex: 1 }} stickyHeaderIndices={[ 1 ]} showsVerticalScrollIndicator={false}>
 					{this.renderComponent1()}
 					{this.renderComponent2()}
