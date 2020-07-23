@@ -6,6 +6,8 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import { ScrollableTabView, DefaultTabBar, ScrollableTabBar } from '@valdio/react-native-scrollable-tabview';
 import { ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
+import _ from 'lodash';
+import moment from 'moment';
 
 const FirstRoute = () => (
 	<View style={[ styles.container, {} ]}>
@@ -90,7 +92,9 @@ class CollapsibleExample extends Component {
 			toggleDescribe: {
 				iconName: 'arrow-down',
 				height: 50
-			}
+			},
+			render: 1,
+			dataLoad: {}
 		};
 	}
 
@@ -103,10 +107,33 @@ class CollapsibleExample extends Component {
 		axios
 			.get(`/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`)
 			.then((res) => {
-				console.log('123456', res);
+				this.setState({ dataLoad: res.data.payload });
 			})
 			.catch((err) => console.log(err));
 	}
+	renderLesson = (section) => {
+		return (
+			<View style={{ paddingHorizontal: 5, paddingTop: 7 }}>
+				<Text style={{ fontSize: 19, color: 'white' }}>{section.name}</Text>
+				{section.lesson.map((item) => {
+					return (
+						<View style={{ flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+							<View
+								style={{
+									height: 7,
+									width: 7,
+									borderRadius: 999,
+									backgroundColor: 'black',
+									marginRight: 5
+								}}
+							/>
+							<Text style={{ fontSize: 16, color: 'white', marginBottom: 4 }}>{item.name}</Text>
+						</View>
+					);
+				})}
+			</View>
+		);
+	};
 	renderButton = (name, iconName) => {
 		return (
 			<View style={{ alignItems: 'center' }}>
@@ -122,7 +149,7 @@ class CollapsibleExample extends Component {
 				>
 					<Icon type="font-awesome-5" name={iconName} color="black" size={17} />
 				</View>
-				<Text>{name}</Text>
+				<Text style={{ color: 'white' }}>{name}</Text>
 			</View>
 		);
 	};
@@ -137,7 +164,7 @@ class CollapsibleExample extends Component {
 				}}
 			>
 				<Text style={{ fontSize: 23, color: 'white', textAlign: 'left', marginBottom: 3 }}>
-					Getting started with tensortflow 2.0
+					{_.get(this.state.dataLoad, 'title')}
 				</Text>
 				<View
 					style={{
@@ -153,12 +180,14 @@ class CollapsibleExample extends Component {
 						style={{ height: 20, width: 20, borderRadius: 999 }}
 						source={{
 							uri:
-								'https://images.unsplash.com/photo-1595234235838-2fc8984bc651?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80'
+								'https://images.unsplash.com/photo-1595350670723-6618500e6f94?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80'
 						}}
 					/>
-					<Text> Janani Ravi</Text>
+					<Text> {_.get(this.state.dataLoad, 'instructor.name')}</Text>
 				</View>
-				<Text style={{ color: 'white', marginBottom: 10 }}>Beginner - Jul 23 2020 - 3h2</Text>
+				<Text style={{ color: 'white', marginBottom: 10 }}>{`Beginner - ${moment(
+					_.get(this.state.dataLoad, 'createdAt')
+				).format('MMM Do YY')} - ${_.get(this.state.dataLoad, 'totalHours') + 'h'}`}</Text>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginBottom: 10 }}>
 					{this.renderButton('Bookmark', 'bookmark')}
 					{this.renderButton('Add to Channel', 'tv')}
@@ -166,77 +195,14 @@ class CollapsibleExample extends Component {
 				</View>
 				<View style={{ flexDirection: 'row' }}>
 					<View style={{ flex: 1, height: this.state.toggleDescribe.height }}>
-						<Text>shkfeAAAAAAAAAAAAAAAAAAAAAAAAgffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
-						<Text>shkfegffsd</Text>
+						<Text style={{ fontSize: 17, color: 'white' }}>
+							{_.get(this.state.dataLoad, 'description')}
+						</Text>
 					</View>
-					<View style={{ width: 20, alignItems: 'center', paddingTop: 5 }}>
+					<View style={{ width: 30, alignItems: 'center', paddingTop: 5 }}>
 						<TouchableOpacity
 							style={{
-								width: 20,
+								width: 25,
 								backgroundColor: 'yellow',
 								height: 45,
 								justifyContent: 'center',
@@ -287,22 +253,37 @@ class CollapsibleExample extends Component {
 					<View
 						style={{ backgroundColor: 'yellow', flex: 1, borderRightColor: 'black', borderRightWidth: 1 }}
 					>
-						<View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+						<TouchableOpacity
+							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
+							onPress={() => this.setState({ render: 1 })}
+						>
 							<Text>CONTENTS</Text>
-						</View>
-						<View style={{ height: 3, backgroundColor: 'black' }} />
+						</TouchableOpacity>
+						<View style={{ height: this.state.render === 1 ? 3 : 0, backgroundColor: 'black' }} />
 					</View>
 					<View style={{ backgroundColor: 'yellow', flex: 1 }}>
-						<View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+						<TouchableOpacity
+							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
+							onPress={() => this.setState({ render: 2 })}
+						>
 							<Text>TRANSCRIPT</Text>
-						</View>
+						</TouchableOpacity>
+						<View style={{ height: this.state.render === 2 ? 3 : 0, backgroundColor: 'black' }} />
 					</View>
 				</View>
 			</View>
 		);
 	};
 	renderComponent3 = () => {
-		return <View style={{ height: 500, backgroundColor: 'yellow' }} />;
+		console.log('babe', _.get(this.state.dataLoad, 'section'));
+		return (
+			<View style={{ backgroundColor: 'green' }}>
+				{_.get(this.state.dataLoad, 'section') &&
+					_.get(this.state.dataLoad, 'section').map((item) => {
+						return this.renderLesson(item);
+					})}
+			</View>
+		);
 	};
 	renderComponent4 = () => {
 		return <View style={{ height: 500, backgroundColor: 'pink' }} />;
@@ -318,8 +299,8 @@ class CollapsibleExample extends Component {
 				<ScrollView style={{ flex: 1 }} stickyHeaderIndices={[ 1 ]} showsVerticalScrollIndicator={false}>
 					{this.renderComponent1()}
 					{this.renderComponent2()}
-					{this.renderComponent3()}
-					{this.renderComponent4()}
+					{this.state.render === 1 ? this.renderComponent3() : this.renderComponent4()}
+
 					{/* <View style={{ flex: 1 }}>
 					<ScrollableTabView
 						pullToRefresh={this._onRefresh}

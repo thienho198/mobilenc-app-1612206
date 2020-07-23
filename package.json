@@ -17,6 +17,7 @@
 		"axios": "^0.19.2",
 		"expo": "~37.0.3",
 		"expo-linear-gradient": "~8.1.0",
+		"lodash": "^4.17.19",
 		"moment": "^2.26.0",
 		"react": "^16.13.1",
 		"react-devtools": "^3.6.3",
