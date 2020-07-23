@@ -139,4 +139,4 @@ const mapStateToProps = (state) => {
 		isLoading: state.auth.loading
 	};
 };
-export default connect(null, mapDispatchToProp)(LoginPageNew);
+export default connect(mapStateToProps, mapDispatchToProp)(LoginPageNew);

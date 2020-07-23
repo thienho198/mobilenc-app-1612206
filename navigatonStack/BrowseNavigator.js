@@ -38,7 +38,7 @@ const HomeNavigator = () => {
 				component={CategoryCoursesWithoutImage}
 				options={CategoryCoursesWithoutImage.navigationOptions}
 			/>
-			<Stack.Screen name="PlayVideoPage" component={PlayVideoPage} options={{ headerShown: false }} />
+			<Stack.Screen name="Course Detail" component={PlayVideoPage} />
 		</Stack.Navigator>
 	);
 };

@@ -9,7 +9,7 @@ const CourseVertical = (props) => {
 	return (
 		<TouchableOpacity
 			onPress={() => {
-				props.navigation.navigate('PlayVideoPage', {
+				props.navigation.navigate('Course Detail', {
 					PlayVideoPage: {
 						id: id
 					}
