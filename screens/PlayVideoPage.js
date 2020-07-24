@@ -10,6 +10,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Video } from 'expo-av';
+import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 
 const FirstRoute = () => (
 	<View style={[ styles.container, {} ]}>
@@ -119,17 +120,18 @@ class CollapsibleExample extends Component {
 				this.setState({ loading: false });
 			});
 	}
-	renderLesson = (section) => {
+	renderLesson = (section, index) => {
 		return (
-			<View style={{ paddingHorizontal: 5, paddingTop: 7 }}>
+			<View style={{ paddingHorizontal: 5, paddingTop: 7 }} key={index}>
 				<Text style={{ fontSize: 19, color: 'white' }}>{section.name}</Text>
-				{section.lesson.map((item) => {
+				{section.lesson.map((item, index) => {
 					return (
 						<TouchableOpacity
 							style={{ flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}
 							onPress={() => {
 								this.setState({ urlVideo: item.videoUrl });
 							}}
+							key={index}
 						>
 							<View
 								style={{
@@ -292,8 +294,8 @@ class CollapsibleExample extends Component {
 		return (
 			<View style={{ backgroundColor: '#1788e6' }}>
 				{_.get(this.state.dataLoad, 'section') &&
-					_.get(this.state.dataLoad, 'section').map((item) => {
-						return this.renderLesson(item);
+					_.get(this.state.dataLoad, 'section').map((item, index) => {
+						return this.renderLesson(item, index);
 					})}
 			</View>
 		);
@@ -311,7 +313,7 @@ class CollapsibleExample extends Component {
 			<View style={{ height: 100, backgroundColor: 'yellow', width: '100%', height: 0 }} />
 		);
 
-		return (
+		return this.props.isAuthenticated ? (
 			<View style={{ flex: 1 }}>
 				<Spinner visible={this.state.loading} textContent={'Loading...'} textStyle={{ color: '#FFF' }} />
 				<View
@@ -395,6 +397,19 @@ class CollapsibleExample extends Component {
 				</View> */}
 				</ScrollView>
 			</View>
+		) : (
+			<View style={styles.mainView}>
+				<Text style={styles.titleMain}>Please login to continue</Text>
+				<ButtonLGSN
+					btnName="LOGIN"
+					colorHex="#2590e9"
+					textColor="white"
+					style={{ marginTop: 14 }}
+					onPress={() => {
+						this.props.navigation.navigate('Login');
+					}}
+				/>
+			</View>
 		);
 	}
 }
@@ -405,12 +420,22 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#F5FCFF'
+	},
+	mainView: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#eef6fd'
+	},
+	titleMain: {
+		fontSize: 16
 	}
 });
 
 const mapStateToProps = (state) => {
 	return {
-		userId: state.auth.authData.id
+		userId: state.auth.authData.id,
+		isAuthenticated: state.auth.isAuthenticated
 	};
 };
 

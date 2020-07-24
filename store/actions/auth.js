@@ -95,7 +95,7 @@ export const authLogin = (data, navigation) => {
 			.then((result) => {
 				// myStorage.setItem('refreshToken', result.data.refreshToken);
 				_storeData('token', result.data.token);
-				navigation.navigate('Home');
+				navigation.goBack();
 				Alert.alert(
 					'Thông báo',
 					'Đăng nhập thành công',

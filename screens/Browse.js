@@ -6,6 +6,8 @@ import CategoryDisplay from '../components/categoryDisplay/CategoryDisplay';
 import Tag from '../components/tag/Tag';
 import AuthorCircle from '../components/authorCircle/AuthorCircle';
 import axios from '../axios/myAxios';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
 const Browse = (props) => {
 	const dataCategoryDiplay = [
@@ -138,7 +140,14 @@ const Browse = (props) => {
 		}
 	];
 
-	const [ listCourseData, setListCourseData ] = useState([]);
+	const [ state, setState ] = useState({
+		listCourseData: [],
+		toggleDescribe: {
+			iconName: 'arrow-up',
+			height: 'auto'
+		}
+	});
+
 	//#region lifeCycle
 	useEffect(() => {
 		axios
@@ -156,7 +165,12 @@ const Browse = (props) => {
 					};
 				});
 				console.log('listCourseData', listCourse);
-				setListCourseData(listCourse);
+				setState((prevS) => {
+					return {
+						...prevS,
+						listCourseData: listCourse
+					};
+				});
 			})
 			.catch((error) => console.log(error));
 	}, []);
@@ -164,7 +178,7 @@ const Browse = (props) => {
 
 	const inviteLoginArea = () => {
 		return (
-			<View style={{ ...styles.inviteLogin, marginVertical: 30, marginTop: 25 }}>
+			<View style={{ ...styles.inviteLogin, marginVertical: 30, marginTop: 25, paddingHorizontal: 10 }}>
 				<Text style={{ fontSize: 22 }}>Login to skill up today</Text>
 				<Text style={{}}>
 					Keep your skills up-to-date with access to thousands of courses by industry experts
@@ -179,6 +193,58 @@ const Browse = (props) => {
 					}}
 				/>
 			</View>
+		);
+	};
+	const welcomArea = () => {
+		return (
+			<React.Fragment>
+				<Text style={{ textAlign: 'left', width: '100%', paddingLeft: 10, marginTop: 10 }}>
+					Welcome to Learning App (1612206)
+				</Text>
+				<View style={{ flexDirection: 'row', paddingHorizontal: 10, marginBottom: 10 }}>
+					<View style={{ flex: 1, height: state.toggleDescribe.height }}>
+						<Text style={{ fontSize: 17, color: 'black' }}>
+							With Learning App, you can build and apply skills in top technologies. You have free access
+							to Skill IQ, Role IQ, a limited library of courses and a weekly rotation of new courses
+						</Text>
+					</View>
+					<View style={{ width: 30, alignItems: 'center', paddingTop: 5 }}>
+						<TouchableOpacity
+							style={{
+								width: 25,
+								backgroundColor: '#72b7f1',
+								height: 30,
+								justifyContent: 'center',
+								borderRadius: 999
+							}}
+							onPress={() => {
+								console.log('tre', state.listCourseData[0]);
+								setState((prevS) => {
+									if (prevS.toggleDescribe.iconName === 'arrow-down') {
+										return {
+											...prevS,
+											toggleDescribe: {
+												iconName: 'arrow-up',
+												height: 'auto'
+											}
+										};
+									} else {
+										return {
+											...prevS,
+											toggleDescribe: {
+												iconName: 'arrow-down',
+												height: 20
+											}
+										};
+									}
+								});
+							}}
+						>
+							<Icon type="font-awesome-5" name={state.toggleDescribe.iconName} color="white" size={17} />
+						</TouchableOpacity>
+					</View>
+				</View>
+			</React.Fragment>
 		);
 	};
 	const bigCategoryDisplayArea = () => {
@@ -250,8 +316,9 @@ const Browse = (props) => {
 	};
 	const smallCategoryDisplayArea = () => {
 		const dataForFlatList2Row = [];
-		while (listCourseData.length > 0) {
-			dataForFlatList2Row.push(listCourseData.splice(0, 2));
+		const listCourseDataMap = _.cloneDeep(state.listCourseData);
+		while (listCourseDataMap.length > 0) {
+			dataForFlatList2Row.push(listCourseDataMap.splice(0, 2));
 		}
 		return (
 			<View style={{ height: 136, width: '100%', marginTop: 10, paddingLeft: 10 }}>
@@ -364,7 +431,7 @@ const Browse = (props) => {
 	return (
 		<View style={styles.mainView}>
 			<ScrollView style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
-				{inviteLoginArea()}
+				{props.isAuthenticated ? welcomArea() : inviteLoginArea()}
 				{bigCategoryDisplayArea()}
 				{smallCategoryDisplayArea()}
 				{popularSkillArea()}
@@ -413,4 +480,10 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default Browse;
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.auth.isAuthenticated
+	};
+};
+
+export default connect(mapStateToProps)(Browse);

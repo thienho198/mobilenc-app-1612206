@@ -9,12 +9,14 @@ import Tag from '../components/tag/Tag';
 import AuthorCircle from '../components/authorCircle/AuthorCircle';
 import CoursesListVertical from '../components/course/CoursesListVertical';
 import axios from '../axios/myAxios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const CategoruCoursesHorizontalList = (props) => {
 	const dataProps = props.route.params.CategoruCoursesHorizontalList;
 	// console.log('haha', props.route);
 	const [ listCourses, setListCourses ] = useState([]);
 	const [ listInstructors, setListInstructors ] = useState([]);
+	const [ loading, setIsLoading ] = useState(true);
 	const dataCourses = [
 		{
 			uriImage: 'https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120',
@@ -240,6 +242,7 @@ const CategoruCoursesHorizontalList = (props) => {
 				offset: 0
 			})
 			.then((response) => {
+				setIsLoading(false);
 				let listCourse = response.data.payload.rows;
 				console.log(listCourse);
 				listCourse = listCourse.map((course, index) => {
@@ -251,6 +254,7 @@ const CategoruCoursesHorizontalList = (props) => {
 				setListCourses(listCourse);
 			});
 		axios.get('/instructor').then((response) => {
+			setIsLoading(false);
 			let listInstructors = response.data.payload;
 
 			listInstructors = listInstructors.map((instructor, index) => {
@@ -262,22 +266,25 @@ const CategoruCoursesHorizontalList = (props) => {
 		});
 	}, []);
 	return (
-		<BGCategoryCourses
-			// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-			// percentHeightImage={30}
-			{...dataProps}
-			goBack={() => {
-				props.navigation.goBack();
-			}}
-		>
-			{SkillArea()}
-			{newIn()}
-			{trendingIn()}
-			{topAuthor()}
+		<React.Fragment>
+			<Spinner visible={loading} textContent={'Loading...'} textStyle={{ color: '#FFF' }} />
 
-			{/* {dataCourses.map((item, index) => <Course key={index} {...item} />)} */}
+			<BGCategoryCourses
+				// uriImage="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+				// percentHeightImage={30}
+				{...dataProps}
+				goBack={() => {
+					props.navigation.goBack();
+				}}
+			>
+				{SkillArea()}
+				{newIn()}
+				{trendingIn()}
+				{topAuthor()}
 
-			{/* <Course
+				{/* {dataCourses.map((item, index) => <Course key={index} {...item} />)} */}
+
+				{/* <Course
 				uriImage="https://pluralsight.imgix.net/course-images/debugging-progressive-web-apps-v1.png?w=120"
 				title="Debugging Progressive Web Apps"
 				authorName="Deeksha Sharma"
@@ -285,7 +292,8 @@ const CategoruCoursesHorizontalList = (props) => {
 				createTime="Jun 3, 2020"
 				duringTime="1h 25m"
 			/> */}
-		</BGCategoryCourses>
+			</BGCategoryCourses>
+		</React.Fragment>
 	);
 };
 

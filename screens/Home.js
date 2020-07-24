@@ -24,9 +24,9 @@ const Home = (props) => {
 	);
 
 	//#region functions
-	const renderItem = (item) => {
+	const renderItem = (item, index) => {
 		return (
-			<View
+			<TouchableOpacity
 				style={{
 					width: 150,
 					marginLeft: 10,
@@ -36,6 +36,14 @@ const Home = (props) => {
 					marginBottom: 10
 				}}
 				key={item.id}
+				onPress={() => {
+					props.navigation.navigate('Course Detail', {
+						PlayVideoPage: {
+							id: item.id
+						}
+					});
+				}}
+				key={index}
 			>
 				<Image
 					source={{
@@ -50,7 +58,7 @@ const Home = (props) => {
 					<Text>Giá:</Text>
 					<Text style={{ marginLeft: 4 }}>{item.price} vnđ</Text>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	};
 	//#region render
@@ -65,7 +73,7 @@ const Home = (props) => {
 					Recommend Courses
 				</Text>
 				<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-					{recommendedData.map((item) => renderItem(item))}
+					{recommendedData.map((item, index) => renderItem(item, index))}
 				</View>
 			</View>
 		</ScrollView>

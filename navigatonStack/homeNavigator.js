@@ -7,6 +7,7 @@ import Profile from '../screens/Profile';
 import LoginPage from '../screens/loginPageNew';
 import ChangepasswordPage from '../screens/ChangePassword';
 import UpdateProfile from '../screens/UpdateProfile';
+import PlayVideoPage from '../screens/PlayVideoPage';
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
@@ -27,6 +28,7 @@ const HomeNavigator = () => {
 			<Stack.Screen name="Profile" component={Profile} />
 			<Stack.Screen name="Change password" component={ChangepasswordPage} />
 			<Stack.Screen name="Update profile" component={UpdateProfile} />
+			<Stack.Screen name="Course Detail" component={PlayVideoPage} />
 		</Stack.Navigator>
 	);
 };
