@@ -147,6 +147,7 @@ const Browse = (props) => {
 			height: 'auto'
 		}
 	});
+	const [ listInstructors, setListInstructors ] = useState([]);
 
 	//#region lifeCycle
 	useEffect(() => {
@@ -171,6 +172,12 @@ const Browse = (props) => {
 						listCourseData: listCourse
 					};
 				});
+			})
+			.catch((error) => console.log(error));
+		axios
+			.get('/instructor')
+			.then((res) => {
+				setListInstructors(res.data.payload);
 			})
 			.catch((error) => console.log(error));
 	}, []);
@@ -416,12 +423,14 @@ const Browse = (props) => {
 	};
 	const topAuthor = () => {
 		return (
-			<View style={{ height: 140, marginTop: 20 }}>
+			<View style={{ height: 180, marginTop: 20, marginBottom: 5, width: '100%' }}>
 				<Text style={{ marginLeft: 10, marginBottom: 10 }}>Top Authors</Text>
 				<FlatList
-					data={dataTopAuthors}
+					data={listInstructors}
 					horizontal={true}
-					renderItem={({ item }) => <AuthorCircle {...item} style={{ marginRight: 10 }} />}
+					renderItem={({ item }) => (
+						<AuthorCircle {...props} {...item} style={{ marginRight: 10 }} colorText="#2590e9" />
+					)}
 					keyExtractor={(item, index) => index}
 					showsHorizontalScrollIndicator={false}
 				/>
