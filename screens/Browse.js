@@ -424,7 +424,7 @@ const Browse = (props) => {
 	const topAuthor = () => {
 		return (
 			<View style={{ height: 180, marginTop: 20, marginBottom: 5, width: '100%' }}>
-				<Text style={{ marginLeft: 10, marginBottom: 10 }}>Top Authors</Text>
+				<Text style={{ marginLeft: 10, marginBottom: 10 }}>Top Instructors</Text>
 				<FlatList
 					data={listInstructors}
 					horizontal={true}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Icon } from 'react-native-elements';
 
 import Course from '../components/course/Course';
 import BGCategoryCourses from '../components/backgroundCategoryCourse/BGCategoryCourses';
@@ -10,6 +11,7 @@ import AuthorCircle from '../components/authorCircle/AuthorCircle';
 import CoursesListVertical from '../components/course/CoursesListVertical';
 import axios from '../axios/myAxios';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 
 const CategoruCoursesHorizontalList = (props) => {
 	const dataProps = props.route.params.CategoruCoursesHorizontalList;
@@ -206,7 +208,7 @@ const CategoruCoursesHorizontalList = (props) => {
 		return (
 			<View style={{ height: 140, marginTop: 10 }}>
 				<Text style={{ marginLeft: 10, marginBottom: 10, fontWeight: 'bold', color: 'white' }}>
-					{`Top Authors in ${dataProps.categoryName}`}{' '}
+					{`Top Instructors in ${dataProps.categoryName}`}{' '}
 				</Text>
 				<FlatList
 					data={listInstructors}
@@ -265,7 +267,8 @@ const CategoruCoursesHorizontalList = (props) => {
 			setListInstructors(listInstructors);
 		});
 	}, []);
-	return (
+
+	return props.isAuthenticated ? (
 		<React.Fragment>
 			<Spinner visible={loading} textContent={'Loading...'} textStyle={{ color: '#FFF' }} />
 
@@ -300,12 +303,48 @@ const CategoruCoursesHorizontalList = (props) => {
 			/> */}
 			</BGCategoryCourses>
 		</React.Fragment>
+	) : (
+		<View style={styles.mainView}>
+			<TouchableOpacity
+				style={{ position: 'absolute', top: 30, left: 10 }}
+				onPress={() => {
+					props.navigation.goBack();
+				}}
+			>
+				<Icon type="font-awesome-5" name="arrow-left" color="#2590e9" />
+			</TouchableOpacity>
+			<Text style={styles.titleMain}>Please login to continue</Text>
+			<ButtonLGSN
+				btnName="LOGIN"
+				colorHex="#2590e9"
+				textColor="white"
+				style={{ marginTop: 14 }}
+				onPress={() => {
+					props.navigation.navigate('Login');
+				}}
+			/>
+		</View>
 	);
 };
 
+const styles = StyleSheet.create({
+	mainView: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#eef6fd',
+		position: 'relative'
+	},
+	titleMain: {
+		fontSize: 16
+	}
+});
+
 const mapStateToProps = (state) => {
 	return {
-		id: state.auth.authData.id
+		id: state.auth.authData.id,
+		isAuthenticated: state.auth.isAuthenticated
 	};
 };
+
 export default connect(mapStateToProps)(CategoruCoursesHorizontalList);
