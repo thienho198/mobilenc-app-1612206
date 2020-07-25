@@ -276,6 +276,12 @@ const CategoruCoursesHorizontalList = (props) => {
 				goBack={() => {
 					props.navigation.goBack();
 				}}
+				startLoading={() => {
+					setIsLoading(true);
+				}}
+				stopLoading={() => {
+					setIsLoading(false);
+				}}
 			>
 				{SkillArea()}
 				{newIn()}

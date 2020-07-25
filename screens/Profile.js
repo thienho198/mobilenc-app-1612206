@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
 import { connect } from 'react-redux';
 import * as actionAuth from '../store/actions/auth';
+import axios from '../axios/myAxios';
 
 const Profile = (props) => {
+	const [ listFavoriteCategories, setListFavoriteCategories ] = useState([]);
+
+	const transferList = async () => {
+		const listFavoriteCte = props.authData.favoriteCategories;
+		const newList = await Promise.all(
+			listFavoriteCte.map(async (item) => {
+				try {
+					console.log(item);
+					const category = await axios.get(`/category/${item}`);
+					return category.data.payload;
+				} catch (err) {
+					console.log(err);
+				}
+			})
+		);
+		console.log('aha', newList);
+		setListFavoriteCategories(newList);
+	};
+	useEffect(() => {
+		transferList();
+	}, []);
+
 	return props.isAuthenticated ? (
 		<View style={styles.mainViewLogged}>
 			<View style={styles.userInfoArea}>
@@ -66,6 +89,21 @@ const Profile = (props) => {
 					>
 						<Text style={{ color: 'white' }}>Update profile</Text>
 					</TouchableOpacity>
+				</View>
+			</View>
+			<View>
+				<Text style={{ fontSize: 19, marginTop: 10 }}>Favorite Categories</Text>
+				<View>
+					{listFavoriteCategories.map((item, index) => {
+						return (
+							<View
+								style={{ padding: 5, borderRadius: 999, marginTop: 10, backgroundColor: '#2590e9' }}
+								key={index}
+							>
+								<Text style={{ fontSize: 16, color: 'white', textAlign: 'center' }}>{item.name}</Text>
+							</View>
+						);
+					})}
 				</View>
 			</View>
 		</View>
