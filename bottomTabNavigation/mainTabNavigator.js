@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeNavigator from '../navigatonStack/homeNavigator';
 import BrowseNavigator from '../navigatonStack/BrowseNavigator';
+import SearchNavigator from '../navigatonStack/SearchNavigator';
 import DownloadNavigator from '../navigatonStack/DownLoadNavigator';
 import React from 'react';
 import { Icon } from 'react-native-elements';
@@ -37,6 +38,16 @@ export default (mainTabNavigator = (props) => {
 					tabBarIcon: (focused, color, size) => {
 						console.log(focused);
 						return <Icon type="font-awesome-5" name="buromobelexperte" size={26} color={focused.color} />;
+					}
+				}}
+			/>
+			<Tab.Screen
+				name="Search"
+				component={SearchNavigator}
+				options={{
+					tabBarIcon: (focused, color, size) => {
+						console.log(focused);
+						return <Icon type="font-awesome-5" name="search" size={26} color={focused.color} />;
 					}
 				}}
 			/>
