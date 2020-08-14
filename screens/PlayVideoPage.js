@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import axios from '../axios/myAxios';
 import { connect } from 'react-redux';
 import { StickyContainer, Sticky } from 'react-sticky';
@@ -11,6 +11,7 @@ import moment from 'moment';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Video } from 'expo-av';
 import ButtonLGSN from '../components/buttonLGSN/buttonLGSN';
+import StarRating from 'react-native-star-rating';
 
 const FirstRoute = () => (
 	<View style={[ styles.container, {} ]}>
@@ -100,7 +101,10 @@ class CollapsibleExample extends Component {
 			dataLoad: {},
 			loading: true,
 			shouldPlay: false,
-			isMuted: false
+			isMuted: false,
+			dataComment: [],
+			meRating: 0,
+			comment: ''
 		};
 	}
 
@@ -108,17 +112,51 @@ class CollapsibleExample extends Component {
 		callback && setTimeout(callback({ test: 'dkjdd' }, 3000));
 	};
 
+	renderComment(item, index) {
+		return (
+			<View key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+				<Image
+					style={{ height: 50, width: 50, borderRadius: 999 }}
+					source={{
+						uri: item.user.avatar
+					}}
+				/>
+				<View style={{ marginLeft: 5, alignItems: 'flex-start' }}>
+					<Text style={{ color: 'white', fontSize: 15, fontWeight: 'bold' }}>{item.user.email}</Text>
+
+					<StarRating
+						disabled={false}
+						maxStars={5}
+						rating={item.averagePoint}
+						selectedStar={(rating) => {}}
+						fullStarColor={'#ffc107'}
+						starSize={14}
+					/>
+					<Text style={{ color: 'white', fontSize: 13 }}>{item.content}</Text>
+				</View>
+			</View>
+		);
+	}
 	componentDidMount() {
 		console.log('abcde', `/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`);
 		axios
 			.get(`/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`)
 			.then((res) => {
-				this.setState({ dataLoad: res.data.payload, loading: false });
+				this.setState({
+					dataLoad: res.data.payload,
+					loading: false,
+					dataComment: res.data.payload.ratings.ratingList
+				});
+				console.log('detail123', res.data.payload);
 			})
 			.catch((err) => {
 				console.log(err);
 				this.setState({ loading: false });
 			});
+		// axios.get(`/course/get-rating/${this.dataProps.id}`).then((res) => {
+		// 	console.log('rating', res.data);
+		// 	this.setState({ dataComment: res.data.payload.ratings.ratingList });
+		// });
 	}
 	renderLesson = (section, index) => {
 		return (
@@ -281,7 +319,7 @@ class CollapsibleExample extends Component {
 							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
 							onPress={() => this.setState({ render: 2 })}
 						>
-							<Text style={{ color: 'white' }}>TRANSCRIPT</Text>
+							<Text style={{ color: 'white' }}>COMMENTS</Text>
 						</TouchableOpacity>
 						<View style={{ height: this.state.render === 2 ? 3 : 0, backgroundColor: 'white' }} />
 					</View>
@@ -302,9 +340,84 @@ class CollapsibleExample extends Component {
 	};
 	renderComponent4 = () => {
 		return (
-			<View style={{ height: 500, backgroundColor: '#1788e6', justifyContent: 'space-between' }}>
-				<Text style={{ color: 'white' }}>No transcription!-header</Text>
-				<Text style={{ color: 'white' }}>No transcription!-footer</Text>
+			<View style={{ minHeight: 300, backgroundColor: '#1788e6' }}>
+				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+					<TextInput
+						placeholder="Bình luận"
+						style={{
+							height: 30,
+							borderColor: 'white',
+							borderWidth: 1,
+							paddingLeft: 10,
+							borderRadius: 999,
+							marginTop: 10,
+
+							flex: 1
+						}}
+						value={this.state.comment}
+						onChangeText={(value) => {
+							this.setState({ comment: value });
+						}}
+					/>
+					<View style={{ width: 70, marginTop: 5 }}>
+						<StarRating
+							disabled={false}
+							maxStars={5}
+							rating={this.state.meRating}
+							selectedStar={(rating) => {
+								this.setState({ meRating: rating });
+							}}
+							fullStarColor={'#ffc107'}
+							starSize={14}
+						/>
+					</View>
+				</View>
+				<TouchableOpacity
+					style={{
+						borderWidth: 1,
+						borderColor: 'white',
+						backgroundColor: 'white',
+						borderRadius: 999,
+						width: 40,
+						marginTop: 5,
+						marginBottom: 10,
+						marginLeft: 5
+					}}
+					onPress={() => {
+						axios
+							.post('/course/rating-course', {
+								courseId: this.dataProps.id,
+								formalityPoint: this.state.meRating,
+								contentPoint: this.state.meRating,
+								presentationPoint: this.state.meRating,
+								content: this.state.comment
+							})
+							.then((res) => {
+								this.setState({ loading: true });
+								axios
+									.get(`/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`)
+									.then((res) => {
+										this.setState({
+											dataLoad: res.data.payload,
+											loading: false,
+											dataComment: res.data.payload.ratings.ratingList
+										});
+										console.log('detail123', res.data.payload.ratings);
+									})
+									.catch((err) => {
+										console.log(err);
+										this.setState({ loading: false });
+									});
+							})
+							.catch((err) => {
+								Alert.alert('Bạn không thể truy cập khóa học này!');
+								console.log(err);
+							});
+					}}
+				>
+					<Text style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Đăng</Text>
+				</TouchableOpacity>
+				{this.state.dataComment.map((item, index) => this.renderComment(item, index))}
 			</View>
 		);
 	};

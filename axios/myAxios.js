@@ -20,7 +20,7 @@ const _retrieveData = async (key, config) => {
 };
 
 const instance = axios.create({
-	baseURL: 'http://itedu-user-api.herokuapp.com'
+	baseURL: 'https://api.itedu.me'
 });
 
 instance.interceptors.request.use((config) => {
