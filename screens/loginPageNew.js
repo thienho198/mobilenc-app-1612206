@@ -60,7 +60,14 @@ const LoginPageNew = (props) => {
 				}}
 				secureTextEntry
 			/>
-			<Text style={styles.forgotPstext}>Forgot password?</Text>
+			<TouchableOpacity
+				onPress={() => {
+					props.navigation.navigate('Forget Password');
+				}}
+			>
+				<Text style={styles.forgotPstext}>Forgot password?</Text>
+			</TouchableOpacity>
+
 			<ButtonLGSN
 				btnName="LOGIN"
 				colorHex="#2590e9"

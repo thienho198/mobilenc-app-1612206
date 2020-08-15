@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, Clipboard } from 'react-native';
 import axios from '../axios/myAxios';
 import { connect } from 'react-redux';
 import { StickyContainer, Sticky } from 'react-sticky';
@@ -92,6 +92,7 @@ class CollapsibleExample extends Component {
 	constructor(props) {
 		super(props);
 		this.dataProps = props.route.params.PlayVideoPage;
+		this.refVideo = React.createRef();
 		this.state = {
 			toggleDescribe: {
 				iconName: 'arrow-down',
@@ -104,7 +105,10 @@ class CollapsibleExample extends Component {
 			isMuted: false,
 			dataComment: [],
 			meRating: 0,
-			comment: ''
+			comment: '',
+			isBuyCourse: false,
+			isLike: false,
+			coursesData: []
 		};
 	}
 
@@ -153,6 +157,24 @@ class CollapsibleExample extends Component {
 				console.log(err);
 				this.setState({ loading: false });
 			});
+		axios.get(`/payment/get-course-info/${this.dataProps.id}`).then((res) => {
+			this.setState({
+				loading: false,
+				isBuyCourse: res.data.didUserBuyCourse
+			});
+		});
+		axios.get(`/user/get-course-like-status/${this.dataProps.id}`).then((res) => {
+			this.setState({
+				loading: false,
+				isLike: res.data.likeStatus
+			});
+		});
+		axios.get(`/user/recommend-course/${this.props.userId}/10/0`).then((res) => {
+			this.setState({
+				loading: false,
+				coursesData: res.data.payload
+			});
+		});
 		// axios.get(`/course/get-rating/${this.dataProps.id}`).then((res) => {
 		// 	console.log('rating', res.data);
 		// 	this.setState({ dataComment: res.data.payload.ratings.ratingList });
@@ -189,7 +211,16 @@ class CollapsibleExample extends Component {
 	};
 	renderButton = (name, iconName) => {
 		return (
-			<View style={{ alignItems: 'center' }}>
+			<TouchableOpacity
+				style={{ alignItems: 'center' }}
+				// onPress={() => {
+				// 	Clipboard.setString(this.state.dataLoad.promoVidUrl);
+				// 	Alert.alert('Đã copy link share vào clipboard');
+				// }}
+				onPress={() => {
+					this.refVideo.getStatusAsync().then((res) => console.log('vcb', res));
+				}}
+			>
 				<View
 					style={{
 						height: 40,
@@ -203,7 +234,7 @@ class CollapsibleExample extends Component {
 					<Icon type="font-awesome-5" name={iconName} color="white" size={17} />
 				</View>
 				<Text style={{ color: 'white' }}>{name}</Text>
-			</View>
+			</TouchableOpacity>
 		);
 	};
 	renderComponent1 = () => {
@@ -241,8 +272,114 @@ class CollapsibleExample extends Component {
 				<Text style={{ color: 'white', marginBottom: 10 }}>{`Beginner - ${moment(
 					_.get(this.state.dataLoad, 'createdAt')
 				).format('MMM Do YY')} - ${_.get(this.state.dataLoad, 'totalHours') + 'h'}`}</Text>
+				<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+					<Text style={{ color: 'white' }}>Đánh giá: </Text>
+					<StarRating
+						disabled={false}
+						maxStars={5}
+						rating={this.state.dataLoad.contentPoint}
+						selectedStar={(rating) => {}}
+						fullStarColor={'#ffc107'}
+						starSize={20}
+					/>
+					{this.state.isBuyCourse ? (
+						<Text style={{ color: 'white', marginBottom: 5, marginLeft: 5 }}> Đã mua khóa học</Text>
+					) : (
+						<TouchableOpacity
+							style={{
+								backgroundColor: 'white',
+								borderRadius: 999,
+								paddingHorizontal: 4,
+								marginLeft: 5
+							}}
+							onPress={() => {
+								axios
+									.post('/payment/get-free-courses', {
+										courseId: this.state.dataLoad.id
+									})
+									.then((res) => {
+										Alert.alert('Mua khóa học thành công');
+										axios.get(`/payment/get-course-info/${this.dataProps.id}`).then((res) => {
+											this.setState({
+												loading: false,
+												isBuyCourse: res.data.didUserBuyCourse
+											});
+										});
+									})
+									.catch((err) => {
+										console.log(err);
+										Alert.alert('Lỗi hệ thống');
+									});
+							}}
+						>
+							<Text style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Mua khóa học</Text>
+						</TouchableOpacity>
+					)}
+					{this.state.isLike ? (
+						<TouchableOpacity
+							style={{
+								backgroundColor: 'white',
+								borderRadius: 999,
+								paddingHorizontal: 4,
+								marginLeft: 5
+							}}
+							onPress={() => {
+								axios
+									.post('/user/like-course', {
+										courseId: this.state.dataLoad.id
+									})
+									.then((res) => {
+										Alert.alert('Bỏ thích khóa học thành công');
+										axios.get(`/user/get-course-like-status/${this.dataProps.id}`).then((res) => {
+											this.setState({
+												loading: false,
+												isLike: res.data.likeStatus
+											});
+										});
+									})
+									.catch((err) => {
+										console.log(err);
+										Alert.alert('Lỗi hệ thống');
+									});
+							}}
+						>
+							<Text style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Bỏ thích khóa học</Text>
+						</TouchableOpacity>
+					) : (
+						<TouchableOpacity
+							style={{
+								backgroundColor: 'white',
+								borderRadius: 999,
+								paddingHorizontal: 4,
+								marginLeft: 5
+							}}
+							onPress={() => {
+								axios
+									.post('/user/like-course', {
+										courseId: this.state.dataLoad.id
+									})
+									.then((res) => {
+										Alert.alert('Thích khóa học thành công');
+										axios.get(`/user/get-course-like-status/${this.dataProps.id}`).then((res) => {
+											this.setState({
+												loading: false,
+												isLike: res.data.likeStatus
+											});
+										});
+									})
+									.catch((err) => {
+										console.log(err);
+										Alert.alert('Lỗi hệ thống');
+									});
+							}}
+						>
+							<Text style={{ color: 'rgba(0, 0, 0, 0.5)' }}>Thích khóa học</Text>
+						</TouchableOpacity>
+					)}
+				</View>
+
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginBottom: 10 }}>
-					{this.renderButton('Bookmark', 'bookmark')}
+					{this.renderButton('Share course', 'bookmark')}
 					{this.renderButton('Add to Channel', 'tv')}
 					{this.renderButton('Download', 'cloud-download-alt')}
 				</View>
@@ -314,7 +451,9 @@ class CollapsibleExample extends Component {
 						</TouchableOpacity>
 						<View style={{ height: this.state.render === 1 ? 3 : 0, backgroundColor: 'white' }} />
 					</View>
-					<View style={{ backgroundColor: '#2590e9', flex: 1 }}>
+					<View
+						style={{ backgroundColor: '#2590e9', flex: 1, borderRightColor: 'white', borderRightWidth: 1 }}
+					>
 						<TouchableOpacity
 							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
 							onPress={() => this.setState({ render: 2 })}
@@ -322,6 +461,15 @@ class CollapsibleExample extends Component {
 							<Text style={{ color: 'white' }}>COMMENTS</Text>
 						</TouchableOpacity>
 						<View style={{ height: this.state.render === 2 ? 3 : 0, backgroundColor: 'white' }} />
+					</View>
+					<View style={{ backgroundColor: '#2590e9', flex: 1 }}>
+						<TouchableOpacity
+							style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}
+							onPress={() => this.setState({ render: 3 })}
+						>
+							<Text style={{ color: 'white' }}>RELATED COURSES</Text>
+						</TouchableOpacity>
+						<View style={{ height: this.state.render === 3 ? 3 : 0, backgroundColor: 'white' }} />
 					</View>
 				</View>
 			</View>
@@ -336,6 +484,43 @@ class CollapsibleExample extends Component {
 						return this.renderLesson(item, index);
 					})}
 			</View>
+		);
+	};
+	renderItem = (item, index) => {
+		return (
+			<TouchableOpacity
+				style={{
+					width: 150,
+					marginLeft: 10,
+					borderRadius: 10,
+					overflow: 'hidden',
+					backgroundColor: '#a0cff5',
+					marginBottom: 10
+				}}
+				key={item.id}
+				onPress={() => {
+					this.props.navigation.navigate('Course Detail', {
+						PlayVideoPage: {
+							id: item.id
+						}
+					});
+				}}
+				key={index}
+			>
+				<Image
+					source={{
+						uri:
+							item.imageUrl ||
+							'https://www.google.com.vn/url?sa=i&url=https%3A%2F%2Fwww.talkandroid.com%2F343746-android-10-official%2F&psig=AOvVaw3fbVN00QD3xxE96suf9Yd8&ust=1594226798415000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLiwtubLu-oCFQAAAAAdAAAAABAE'
+					}}
+					style={{ width: '100%', height: 100 }}
+				/>
+				<Text style={{ padding: 5, fontWeight: 'bold' }}>{item.title}</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 3, paddingBottom: 10 }}>
+					<Text>Giá:</Text>
+					<Text style={{ marginLeft: 4 }}>{item.price} vnđ</Text>
+				</View>
+			</TouchableOpacity>
 		);
 	};
 	renderComponent4 = () => {
@@ -394,6 +579,7 @@ class CollapsibleExample extends Component {
 							})
 							.then((res) => {
 								this.setState({ loading: true });
+								Alert.alert('Bình luận thành công');
 								axios
 									.get(`/course/get-course-detail/${this.dataProps.id}/${this.props.userId}`)
 									.then((res) => {
@@ -421,6 +607,15 @@ class CollapsibleExample extends Component {
 			</View>
 		);
 	};
+	renderComponent5 = () => {
+		return (
+			<View style={{ backgroundColor: '#1788e6', minHeight: 300, paddingTop: 20 }}>
+				<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+					{this.state.coursesData.map((item, index) => this.renderItem(item, index))}
+				</View>
+			</View>
+		);
+	};
 	render() {
 		const collapsableComponent = (
 			<View style={{ height: 100, backgroundColor: 'yellow', width: '100%', height: 0 }} />
@@ -440,6 +635,9 @@ class CollapsibleExample extends Component {
 				>
 					<Text style={{ fontSize: 18 }}>Hãy chọn nội dung để phát...</Text>
 					<Video
+						ref={(ref) => {
+							this.refVideo = ref;
+						}}
 						source={{
 							uri: this.state.urlVideo
 						}}
@@ -490,8 +688,9 @@ class CollapsibleExample extends Component {
 				<ScrollView style={{ flex: 1 }} stickyHeaderIndices={[ 1 ]} showsVerticalScrollIndicator={false}>
 					{this.renderComponent1()}
 					{this.renderComponent2()}
-					{this.state.render === 1 ? this.renderComponent3() : this.renderComponent4()}
-
+					{this.state.render === 1 ? this.renderComponent3() : null}
+					{this.state.render === 2 ? this.renderComponent4() : null}
+					{this.state.render === 3 ? this.renderComponent5() : null}
 					{/* <View style={{ flex: 1 }}>
 					<ScrollableTabView
 						pullToRefresh={this._onRefresh}

@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginPage from '../screens/loginPageNew';
 import SignUpPage from '../screens/signupPage';
+import ForgetPassword from '../screens/ForgetPassword';
 import MainTabNavigator from '../bottomTabNavigation/mainTabNavigator';
 
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ const MyStack = () => {
 			<Stack.Screen name="MainTab" component={MainTabNavigator} options={{ headerShown: false }} />
 			<Stack.Screen name="Login" component={LoginPage} />
 			<Stack.Screen name="SignUp" component={SignUpPage} />
+			<Stack.Screen name="Forget Password" component={ForgetPassword} />
 		</Stack.Navigator>
 	);
 };
