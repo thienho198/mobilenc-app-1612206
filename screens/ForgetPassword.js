@@ -80,7 +80,9 @@ const ForgetPassword = (props) => {
 					if (dataPost.password === dataPost.confirmPassword) {
 						setIsLoading(true);
 						axios
-							.post('/user/forget-pass/send-email', dataPost)
+							.post('/user/forget-pass/send-email', {
+								email: dataPost.email
+							})
 							.then((res) => {
 								setIsLoading(false);
 								Alert.alert('Gửi email đặt lại mật khẩu thành công');
@@ -88,7 +90,7 @@ const ForgetPassword = (props) => {
 							.catch((err) => {
 								console.log(err);
 								setIsLoading(false);
-								Alert.alert('Không tồn tại email này');
+								Alert.alert('Hệ thống gặp lỗi khi gửi mail');
 							});
 						// axios
 						// 	.post('/user/register', dataPost)

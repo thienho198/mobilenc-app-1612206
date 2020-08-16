@@ -249,12 +249,9 @@ class CollapsibleExample extends Component {
 		return (
 			<TouchableOpacity
 				style={{ alignItems: 'center' }}
-				// onPress={() => {
-				// 	Clipboard.setString(this.state.dataLoad.promoVidUrl);
-				// 	Alert.alert('Đã copy link share vào clipboard');
-				// }}
 				onPress={() => {
-					this.refVideo.getStatusAsync().then((res) => console.log('vcb', res));
+					Clipboard.setString(this.state.dataLoad.promoVidUrl);
+					Alert.alert('Đã copy link share vào clipboard');
 				}}
 			>
 				<View
