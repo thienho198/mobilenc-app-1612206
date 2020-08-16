@@ -9,6 +9,7 @@ import ChangepasswordPage from '../screens/ChangePassword';
 import UpdateProfile from '../screens/UpdateProfile';
 import PlayVideoPage from '../screens/PlayVideoPage';
 import AuthorDetail from '../screens/AuthorDetail';
+import Setting from '../screens/Setting';
 const Stack = createStackNavigator();
 
 const SearchNavigator = () => {
@@ -29,6 +30,7 @@ const SearchNavigator = () => {
 			<Stack.Screen name="Profile" component={Profile} />
 			<Stack.Screen name="Course Detail" component={PlayVideoPage} />
 			<Stack.Screen name="Instructor Detail" component={AuthorDetail} />
+			<Stack.Screen name="Setting" component={Setting} />
 		</Stack.Navigator>
 	);
 };

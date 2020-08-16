@@ -22,7 +22,8 @@ const AuthorCircle = (props) => {
 						authorMajor: authorMajor,
 						authorPhoneNumber: authorPhoneNumber,
 						authorIntro: authorIntro,
-						authorSkills: authorSkills
+						authorSkills: authorSkills,
+						authorPhoto: uriImage
 					}
 				});
 			}}
@@ -30,8 +31,7 @@ const AuthorCircle = (props) => {
 			<Image
 				style={styles.photoBounce}
 				source={{
-					uri:
-						'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
+					uri: uriImage
 				}}
 			/>
 			<Text style={{ textAlign: 'center', color: colorText }}>{authorName}</Text>

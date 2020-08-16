@@ -365,7 +365,11 @@ Search.navigationOptions = (props) => {
 					>
 						<Icon type="font-awesome-5" name="user-circle" color="white" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => {}}>
+					<TouchableOpacity
+						onPress={() => {
+							props.navigation.navigate('Setting');
+						}}
+					>
 						<Icon type="font-awesome-5" name="ellipsis-v" color="white" size={19} />
 					</TouchableOpacity>
 				</View>

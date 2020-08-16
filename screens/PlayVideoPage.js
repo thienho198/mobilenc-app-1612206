@@ -110,6 +110,7 @@ class CollapsibleExample extends Component {
 			isLike: false,
 			coursesData: []
 		};
+		this.currentLesson = '';
 	}
 
 	_onRefresh = (callback) => {
@@ -175,6 +176,18 @@ class CollapsibleExample extends Component {
 				coursesData: res.data.payload
 			});
 		});
+		axios.get(`/course/last-watched-lesson/${this.dataProps.id}`).then((res) => {
+			console.log('rew', res.data.payload);
+			this.setState(
+				{
+					loading: false,
+					urlVideo: res.data.payload.videoUrl
+				},
+				() => {
+					this.refVideo.setPositionAsync(res.data.payload.currentTime);
+				}
+			);
+		});
 		// axios.get(`/course/get-rating/${this.dataProps.id}`).then((res) => {
 		// 	console.log('rating', res.data);
 		// 	this.setState({ dataComment: res.data.payload.ratings.ratingList });
@@ -189,7 +202,30 @@ class CollapsibleExample extends Component {
 						<TouchableOpacity
 							style={{ flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}
 							onPress={() => {
-								this.setState({ urlVideo: item.videoUrl });
+								if (this.currentLesson != '') {
+									this.refVideo.getStatusAsync().then((res) => {
+										console.log('vcb', res);
+										axios
+											.put('/lesson/update-current-time-learn-video', {
+												lessonId: this.currentLesson,
+												currentTime: res.positionMillis
+											})
+											.then((res1) => {
+												const seconds = Number(res.positionMillis) / 1000;
+												Alert.alert(
+													`Ghi nhận bạn học lesson ${this
+														.currentLessonName} tại ${seconds} giây`
+												);
+												this.currentLesson = item.id;
+												this.currentLessonName = item.name;
+												this.setState({ urlVideo: item.videoUrl });
+											});
+									});
+								} else {
+									this.currentLesson = item.id;
+									this.currentLessonName = item.name;
+									this.setState({ urlVideo: item.videoUrl });
+								}
 							}}
 							key={index}
 						>

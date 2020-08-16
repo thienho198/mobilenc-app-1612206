@@ -9,7 +9,7 @@ import CategoruCoursesHorizontalList from '../screens/CategoruCoursesHorizontalL
 import CategoryCoursesWithoutImage from '../screens/CategoryCoursesWithoutImage';
 import PlayVideoPage from '../screens/PlayVideoPage';
 import AuthorDetail from '../screens/AuthorDetail';
-
+import Setting from '../screens/Setting';
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
@@ -41,6 +41,7 @@ const HomeNavigator = () => {
 			/>
 			<Stack.Screen name="Course Detail" component={PlayVideoPage} />
 			<Stack.Screen name="Instructor Detail" component={AuthorDetail} />
+			<Stack.Screen name="Setting" component={Setting} />
 		</Stack.Navigator>
 	);
 };
